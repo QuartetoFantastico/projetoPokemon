@@ -4,16 +4,21 @@ import re
 
 class Batalha:
 
-	def TypeChart():
-		arquivo = open('tabela.txt', 'r')
+	def TypeChart(self, name):
+		arquivo = open(name, 'r')
 		tab = []
 		i = 0
-		line = readline()
+		line = arquivo.readline()
 		while(line):
-			tab[i] = line
+			tab.append(line)
+			tab[i] = tab[i].split()
+			tab[i] = [float(j) for j in tab[i]]
 			i+= 1
-			tab[i] = tab[i].split(" ")
+			line = arquivo.readline()
 
+
+		for i in range(0, len(tab) - 1):
+			print(tab[i])	
 		return tab
 
 
@@ -28,7 +33,7 @@ class Batalha:
 			return (2 * pkmn.lvl + 5)/(pkmn.lvl+5)
 		return 1
 
-	def CalculaDano(atk):
+	def CalculaDano(self, atk):
 
 		critical = CriticalHit();
 		tab = TypeChart();
@@ -43,9 +48,11 @@ class Pokemon:
 	
 
 		cont = 0
-		if ((temp = fileinput.readline() is not None) and cont <= 9):
+		temp = fileinput.readline()
+		if (temp is not None and cont <= 9):
 			cont+= 1
 			lista.append(temp)
+			temp = fileinput.readline()
 		
 		for i in range (0, len(lista)- 1):
 			pkmn.lista2[i] = leitorDeAtk()
@@ -98,10 +105,11 @@ class Leitor:
 
 
 
-leitor = Leitor()
-pkmn = leitor.leitorDePokemon()
-pkmn2 = leitor.leitorDePokemon()
+# leitor = Leitor()
+# pkmn = leitor.leitorDePokemon()
+# pkmn2 = leitor.leitorDePokemon()
 
 
-	    
+battle = Batalha()
+battle.TypeChart('tabela.txt')    
 
