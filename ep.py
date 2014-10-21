@@ -1,4 +1,4 @@
-import fileinput
+from sys import stdin
 import re
 
 
@@ -7,15 +7,14 @@ class Batalha:
 	def IniciaTurno(self):
 		if (pkmn.spd > pkmn2.spd):
 			return pkmn
-		else(pkmn2.spd > pkmn.spd):
+		elif (pkmn2.spd > pkmn.spd):
 			return pkmn2
 		else:
 		    return random.randint(1, 3)	
 
 
-    def EscolheAtaque(self):
-    	number = int(input("Escolha o número do ataque"))
-    	lista[]
+	def EscolheAtaque(self):
+		number = int(input("Escolha o número do ataque"))
 
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
@@ -36,7 +35,7 @@ class Batalha:
 
 
 	def StabBonus():
-		if (atk.typ == pkmn.typ1 || atk.typ == pkmn.typ2) return 1.5
+		if (atk.typ == pkmn.typ1 or atk.typ == pkmn.typ2): return 1.5
 		return 1
 
 	def CriticalHit():
@@ -53,78 +52,128 @@ class Batalha:
 		STAB = StabBonus()
 		Type = tab[atk.typ][pkmn2.typ1] * [atk.typ][pkmn2.typ2] 
 		Modifier = STAB * Type * Critical * random.uniform(0.85, 1)
-		Damage = (2 * pkmn.lvl + 10)/250 * pkmn.atk/pkmn2.defe * atk.pwr + 2) * Modifier;
+		Damage = ((2 * pkmn.lvl + 10)/250 * pkmn.atk/pkmn2.defe * atk.pwr + 2) * Modifier;
 		
 class Pokemon:
 
 	def __init__(self):
-	
-
-		cont = 0
-		temp = fileinput.readline()
-		if (temp is not None and cont <= 9):
-			cont+= 1
-			lista.append(temp)
-			temp = fileinput.readline()
-		
-		for i in range (0, len(lista)- 1):
-			pkmn.lista2[i] = leitorDeAtk()
-		lista.append = lista2	
-
-		for i in range(0, 8):
-			pkmn.nome = lista.pop(obj=lista[0])
-			pkmn.lvl = lista.pop(obj=lista[0])
-			pkmn.hp = lista.pop(obj=lista[0])
-			pkmn.atk = lista.pop(obj=lista[0])
-			pkmn.defe = lista.pop(obj=lista[0])
-			pkmn.spd = lista.pop(obj=lista[0])
-			pkmn.typ1 = lista.pop(obj=lista[0])
-			pkmn.typ2 = lista.pop(obj=lista[0])
-
-		for i in range(0, 8):
-			pkmn2.nome = lista.pop(obj=lista[0])
-			pkmn2.lvl = lista.pop(obj=lista[0])
-			pkmn2.hp = lista.pop(obj=lista[0])
-			pkmn2.atk = lista.pop(obj=lista[0])
-			pkmn2.defe = lista.pop(obj=lista[0])
-			pkmn2.spd = lista.pop(obj=lista[0])
-			pkmn2.typ1 = lista.pop(obj=lista[0])
-			pkmn2.typ2 = lista.pop(obj=lista[0])	
-
+		leitor = Leitor()
+		lista = leitor.leitorDePokemons()
+		print(lista)
+		if (len(lista) >= 10):
+			self.nome = lista.pop(0)
+			self.lvl = lista.pop(0)
+			self.hp = lista.pop(0)
+			self.atk = lista.pop(0)
+			self.defe = lista.pop(0)
+			self.spd = lista.pop(0)
+			self.spc = lista.pop(0)
+			self.typ1 =lista.pop(0)
+			self.typ2 = lista.pop(0)
+			lista.pop(0)
+			while (len(lista) < 4):
+				lista.append(None)
+			self.atks = lista
 
 	def isAlive(self):
 		return (self.hpAtual > 0)
 
+	def show(self):
+		print()
+		print('Nome: {}'.format(self.nome))
+		print('Level: {}'.format(self.lvl))
+		print('HP: {}'.format(self.hp))
+		print('Ataque: {}'.format(self.atk))
+		print('Defesa: {}'.format(self.defe))
+		print('Speed: {}'.format(self.spd))
+		print('Tipos: {} e {}'.format(self.typ1, self.typ2))
+		print()
+		print('Moves:')
+		for i in range(0,4):
+			if (self.atks[i] is not None):
+				self.atks[i].show()
+
 class Ataque:
 
 	def __init__(self):
-		atk.nome = atack_list.pop(obj=atack_list[0])
-		atk.typ = atack_list.pop(obj=atack_list[0])
-		atk.acu = atack_list.pop(obj=atack_list[0])
-		atk.pwr = atack_list.pop(obj=atack_list[0])
-		atk.pp = atack_list.pop(obj=atack_list[0])
+		self.nome = ''
+		self.typ = -1
+		self.acu = -1
+		self.pwr = -1
+		self.pp = -1
+		self.ppAtual = -1 
 
-
-
-
+	def show(self):
+		print('\tNome: {}'.format(self.nome))
+		print('\tTipo: {}'.format(self.typ))
+		print('\tAccuracy: {}'.format(self.acu))
+		print('\tPower: {}'.format(self.pwr))
+		print('\tPP: {}/{}'.format(self.ppAtual,self.pp))
+		print()
 
 class Leitor:
 
-	# def leitorDePokemon(self):
+	def __init__(self):
+		self.line = stdin.readline()
+		self.listaAtributosPokemon = []
+		self.listaAtributosAtk = []
 
+	def leitorDePokemons(self):
+
+		while (self.line is not None and len(self.listaAtributosPokemon) < 10):
+			atributos = self.line.split()
+			self.listaAtributosPokemon.extend(atributos)
+			self.line = stdin.readline()
 		
+		length = len(self.listaAtributosPokemon)
+		if (length < 10):
+			print("Pokemon inválido!")
+			return []
 
-	# 	return pkmn = Pokemon()
-	# 	pkmn = Pokemon()
+		if (length >= 10):
+			self.listaAtributosAtk = self.listaAtributosPokemon[10:length]
+			self.listaAtributosPokemon = self.listaAtributosPokemon[0:10]
+
+		nome = self.listaAtributosPokemon.pop(0)
+		print(self.listaAtributosPokemon)
+		self.listaAtributosPokemon = [int(i) for i in self.listaAtributosPokemon]
+		self.listaAtributosPokemon.insert(0, nome)
+		print(self.listaAtributosPokemon)
+
+		listaAtks = []
+		for i in range (0, self.listaAtributosPokemon[9]):
+			listaAtks.append(self.leitorDeAtk())
+		self.listaAtributosPokemon.extend(listaAtks)
+
+		return self.listaAtributosPokemon
 
 	def leitorDeAtk(self):
 
 		atk = Ataque()
-		atack_list = []
-		for i in range(0,4):
-			atack_list.append = fileinput.readline() 
-		
-		return atack_list
+		cont = len(self.listaAtributosAtk)
+		while (self.line is not None and len(self.listaAtributosAtk) < 5):
+			atributos = self.line.split()
+			self.listaAtributosAtk.extend(atributos)
+			self.line = stdin.readline()
+
+		p = re.compile('[a-zA-Z]+')
+		if (p.match(self.listaAtributosAtk[1])):
+			atk.nome = self.listaAtributosAtk.pop(0) + ' ' + self.listaAtributosAtk.pop(0)
+			if (self.line is not None):
+				atributos = self.line.split()
+				self.listaAtributosAtk.extend(atributos)
+				self.line = stdin.readline()
+			else: print("Ataque inválido!")
+		else: atk.nome = self.listaAtributosAtk.pop(0)
+
+		self.listaAtributosAtk = [int(i) for i in self.listaAtributosAtk]
+		atk.typ = self.listaAtributosAtk.pop(0)
+		atk.acu = self.listaAtributosAtk.pop(0)
+		atk.pwr = self.listaAtributosAtk.pop(0)
+		atk.pp = self.listaAtributosAtk.pop(0)
+		atk.ppAtual = atk.pp
+
+		return atk
 
 
 
@@ -133,6 +182,10 @@ class Leitor:
 # pkmn2 = leitor.leitorDePokemon()
 
 
-battle = Batalha()
-battle.TypeChart('tabela.txt')    
+# battle = Batalha()
+# battle.TypeChart('tabela.txt')    
+
+pkmn = Pokemon()
+pkmn.show()
+
 
