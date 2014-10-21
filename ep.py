@@ -4,6 +4,19 @@ import re
 
 class Batalha:
 
+	def IniciaTurno(self):
+		if (pkmn.spd > pkmn2.spd):
+			return pkmn
+		else(pkmn2.spd > pkmn.spd):
+			return pkmn2
+		else:
+		    return random.randint(1, 3)	
+
+
+    def EscolheAtaque(self):
+    	number = int(input("Escolha o número do ataque"))
+    	lista[]
+
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
 		tab = []
@@ -67,6 +80,16 @@ class Pokemon:
 			pkmn.spd = lista.pop(obj=lista[0])
 			pkmn.typ1 = lista.pop(obj=lista[0])
 			pkmn.typ2 = lista.pop(obj=lista[0])
+
+		for i in range(0, 8):
+			pkmn2.nome = lista.pop(obj=lista[0])
+			pkmn2.lvl = lista.pop(obj=lista[0])
+			pkmn2.hp = lista.pop(obj=lista[0])
+			pkmn2.atk = lista.pop(obj=lista[0])
+			pkmn2.defe = lista.pop(obj=lista[0])
+			pkmn2.spd = lista.pop(obj=lista[0])
+			pkmn2.typ1 = lista.pop(obj=lista[0])
+			pkmn2.typ2 = lista.pop(obj=lista[0])	
 
 
 	def isAlive(self):
