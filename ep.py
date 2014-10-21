@@ -7,15 +7,18 @@ class Batalha:
 	def IniciaTurno(self):
 		if (pkmn.spd > pkmn2.spd):
 			return pkmn
-		else(pkmn2.spd > pkmn.spd):
+		else (pkmn2.spd > pkmn.spd):
 			return pkmn2
 		else:
-		    return random.randint(1, 3)	
-
+		    number = random.randint(1, 3)	
+		    if (number == 1):
+		    	return pkmn
+		    else:
+		    	return pkmn2
 
     def EscolheAtaque(self):
     	number = int(input("Escolha o número do ataque"))
-    	lista[]
+    	return number
 
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
