@@ -10,11 +10,15 @@ class Batalha:
 		elif (pkmn2.spd > pkmn.spd):
 			return pkmn2
 		else:
-		    return random.randint(1, 3)	
+		    number = random.randint(1, 3)	
+		    if (number == 1):
+		    	return pkmn
+		    else:
+		    	return pkmn2
 
-
-	def EscolheAtaque(self):
-		number = int(input("Escolha o número do ataque"))
+    def EscolheAtaque(self):
+    	number = int(input("Escolha o número do ataque"))
+    	return number
 
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
