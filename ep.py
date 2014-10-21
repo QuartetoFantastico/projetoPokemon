@@ -17,6 +17,10 @@ class Batalha:
 		return tab
 
 
+	def StabBonus():
+		if (atk.typ == pkmn.typ1 || atk.typ == pkmn.typ2) return 1.5
+		return 1
+
 	def CriticalHit():
 		critical = (pkmn.spd/512);
 		temp = random.uniform(0, 1)
@@ -28,8 +32,9 @@ class Batalha:
 
 		critical = CriticalHit();
 		tab = TypeChart();
+		STAB = StabBonus()
 		Type = tab[atk.typ][pkmn2.typ1] * [atk.typ][pkmn2.typ2] 
-		Modifier = STAB * Type * Critical * other * random.uniform(0.85, 1)
+		Modifier = STAB * Type * Critical * random.uniform(0.85, 1)
 		Damage = (2 * pkmn.lvl + 10)/250 * pkmn.atk/pkmn2.defe * atk.pwr + 2) * Modifier;
 		
 class Pokemon:
