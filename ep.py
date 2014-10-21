@@ -16,9 +16,9 @@ class Batalha:
 		    else:
 		    	return pkmn2
 
-    def EscolheAtaque(self):
-    	number = int(input("Escolha o número do ataque"))
-    	return number
+	def EscolheAtaque(self):
+		number = int(input("Escolha o número do ataque"))
+		return number
 
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
