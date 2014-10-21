@@ -61,5 +61,8 @@ class TestAtaque(unittest.TestCase):
     # O que testar?
     #
 
+class TestBatalha(unittest.TestCase):
+  
+
 if __name__ == '__main__':
     unittest.main()
