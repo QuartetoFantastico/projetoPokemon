@@ -5,14 +5,14 @@ Pikachu 100 274 229
 16
 4
 Thunder
-16
+12
 70
 110
-10 Electro Ball 16
+10 Electro Ball 12
 100
 80
 10 Quick Attack 0 100 40
-30
+0
 Rock Smash
 1
 100
@@ -26,14 +26,14 @@ Raichu 100 274 229
 16
 4
 Thunder
-16
+12
 70
 110
-10 Electro Ball 16
+10 Electro Ball 12
 100
 80
 10 Quick Attack 0 100 40
-30
+0
 Rock Smash
 1
 100
@@ -41,3 +41,15 @@ Rock Smash
 15
 
 3
+2
+1
+2
+4
+1
+3
+2
+1
+2
+3
+4
+1

@@ -19,12 +19,31 @@ class Batalha:
 			return 1
 		return random.randint(0, 1)	
 
+	def AlternaTurno(self):
+		self.turno = (self.turno + 1) % 2
+
 	def EscolheAtaque(self):
-		print("Escolha o ataque:")
-		for i in range(0, self.pkmn[self.turno].getNatks()):
-			print("{}. {}".format(i + 1, self.pkmn[self.turno].getAtks(i).getNome()))
-		number = int(input(""))
-		return number - 1
+		struggle = 1
+		true = 1
+		nAtks = self.pkmn[self.turno].getNatks()
+
+		for i in range(0, nAtks):
+			if (self.pkmn[self.turno].getAtks(i).ppCheck() != 0):
+				struggle = 0				
+
+		if struggle:
+			return 5
+
+		else:
+			print("Escolha o ataque:")
+			while true:			
+				for i in range(0, nAtks):
+					print("{}. {}".format(i + 1, self.pkmn[self.turno].getAtks(i).getNome()))
+				number = int(input(""))
+				if self.pkmn[self.turno].getAtks(i).ppCheck():
+					return number - 1
+				print("PP insuficiente, escolha outro ataque:")
+
 
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
@@ -64,10 +83,17 @@ class Batalha:
 		defending = (self.turno + 1) % 2
 		Type = tab[atk.getTyp()][self.pkmn[defending].getTyp1()] * tab[atk.getTyp()][self.pkmn[defending].getTyp2()]
 		Modifier = STAB * Type * Critical * random.uniform(0.85, 1)
-		Damage = round(((2 * self.pkmn[self.turno].getLvl() + 10)/250 * self.pkmn[self.turno].getAtk() /self.pkmn[defending].getDefe()  * atk.getPwr() + 2) * Modifier, 0);
+		Damage = round((((2 * self.pkmn[self.turno].getLvl() + 10)/250) * self.pkmn[self.turno].getAtk() /self.pkmn[defending].getDefe()  * atk.getPwr() + 2) * Modifier, 0);
+		self.pkmn[defending].setHpAtual(self.pkmn[defending].getHpAtual() - Damage) 
 		print("{} acerta {} com {}! {} de dano ".format(self.pkmn[self.turno].getNome(), self.pkmn[defending].getNome(), atk.getNome(), Damage))
+	
+	def isOver(self):
+		return not (self.pkmn[0].isAlive() and self.pkmn[1].isAlive())  
 
 
 batalha = Batalha()
-i = batalha.EscolheAtaque()
-batalha.CalculaDano(batalha.pkmn[batalha.turno].getAtks(i))  
+  
+while (not batalha.isOver()):
+	i = batalha.EscolheAtaque()
+	batalha.CalculaDano(batalha.pkmn[batalha.turno].getAtks(i))
+	batalha.AlternaTurno()

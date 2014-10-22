@@ -14,6 +14,7 @@ class Pokemon:
 		self._typ1 = -1
 		self._typ2 = -1
 		self._atks = []
+		self._hpAtual = -1
 
 
 		leitor = leitorpkmn.Leitor()
@@ -28,13 +29,14 @@ class Pokemon:
 			self._spc = lista.pop(0)
 			self._typ1 =lista.pop(0)
 			self._typ2 = lista.pop(0)
+			self._hpAtual = self._hp
 			lista.pop(0)
 			while (len(lista) < 4):
 				lista.append(None)
 			self._atks = lista
 
 	def isAlive(self):
-		return (self._hpAtual > 0)
+		return (self.getHpAtual() > 0)
 
 	def show(self):
 		print()
@@ -45,6 +47,7 @@ class Pokemon:
 		print('Defesa: {}'.format(self._defe))
 		print('Speed: {}'.format(self._spd))
 		print('Tipos: {} e {}'.format(self._typ1, self._typ2))
+		print('Num Ataques: {}'.format(self.getNatks()))
 		print()
 		print('Moves:')
 		for i in range(0,4):
@@ -77,7 +80,10 @@ class Pokemon:
 
 	def setAtks(self, i, atk):
 		self._atks.append(atk)
-
+	
+	def setHpAtual(self, hp):
+		self._hpAtual = hp
+	
 	def getHp(self):
 		return self._hp
 
@@ -111,6 +117,13 @@ class Pokemon:
 	def getAtks(self, i):
 		return self._atks[i]
 
-	def getNatks(self):
-		return len(self._atks)
+	def getNatks(self):	
+		cont = 0;
+		for i in range(0,4):
+			if self._atks[i] is not None:
+				cont += 1
+		return cont
+
+	def getHpAtual(self):
+		return self._hpAtual
 

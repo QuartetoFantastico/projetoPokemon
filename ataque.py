@@ -16,6 +16,9 @@ class Ataque:
 		print('\tPP: {}/{}'.format(self._ppAtual,self._pp))
 		print()
 
+	def ppCheck(self):
+		return self._ppAtual > 0
+
 	def setNome(self, nome):
 		self._nome = nome
 
