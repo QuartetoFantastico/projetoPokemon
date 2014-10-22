@@ -58,3 +58,6 @@ class Ataque:
 	def decreasePp(self):
 		if (self._nome is not 'Struggle'):
 			self._ppAtual -= 1
+
+	def isSpecial(self):
+		return (self._typ >= 9 and self._typ != 16)
