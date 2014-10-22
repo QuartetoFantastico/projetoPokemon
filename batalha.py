@@ -5,25 +5,22 @@ class Batalha:
 
 
 	def __init__(self):
-			self.pkmn = pokemon.Pokemon()
-			self.pkmn.show()
-			self.pkmn2 = pokemon.Pokemon()
-			self.pkmn2.show()
+			self.pkmn = []
+			self.pkmn.append(pokemon.Pokemon())
+			self.pkmn[0].show()
+			self.pkmn.append(pokemon.Pokemon())
+			self.pkmn[1].show()
+			self.turno = self.IniciaTurno()
 
 	def IniciaTurno(self):
-		if (self.pkmn.spd > self.pkmn2.spd):
-			return self.pkmn
-		elif (self.pkmn2.spd > self.pkmn.spd):
-			return self.pkmn2
-		else:
-		    number = random.randint(1, 3)	
-		    if (number == 1):
-		    	return self.pkmn
-		    else:
-		    	return self.pkmn2
+		if (self.pkmn[0].spd > self.pkmn[1].spd):
+			return 0
+		elif (self.pkmn[1].spd > self.pkmn[0].spd):
+			return 1
+		return random.randint(0, 1)	
 
 	def EscolheAtaque(self):
-		number = int(input("Escolha o número do ataque"))
+		number = int(input("Escolha o número do ataque\n"))
 		return number
 
 	def TypeChart(self, name):
@@ -39,33 +36,36 @@ class Batalha:
 			line = arquivo.readline()
 
 
-		for i in range(0, len(tab) - 1):
-			print(tab[i])	
+		# for i in range(0, len(tab) - 1):
+		# 	print(tab[i])	
 		return tab
 
 
 	def StabBonus(self, atk):
-		if (atk.typ == self.pkmn.typ1 or atk.typ == self.pkmn.typ2): return 1.5
+		if (atk.typ == self.pkmn[self.turno].typ1 or atk.typ == self.pkmn[self.turno].typ2): return 1.5
 		return 1
 
 	def CriticalHit(self):
-		critical = (self.pkmn.spd/512);
+		critical = (self.pkmn[self.turno].spd/512);
 		temp = random.uniform(0, 1)
 		if (temp <= critical):
-			return (2 * self.pkmn.lvl + 5)/(self.pkmn.lvl+5)
+			print("Critical Hit!")
+			return (2 * self.pkmn[self.turno].lvl + 5)/(self.pkmn[self.turno].lvl+5)
 		return 1
 
 	def CalculaDano(self, atk):
 
-		critical = self.CriticalHit();
+		Critical = self.CriticalHit();
 		tab = self.TypeChart('tabela.txt');
 		STAB = self.StabBonus(atk)
-		Type = tab[atk.typ][self.pkmn2.typ1] * [atk.typ][self.pkmn2.typ2] 
+		defending = (self.turno + 1) % 2
+		Type = tab[atk.typ][self.pkmn[defending].typ1] * tab[atk.typ][self.pkmn[defending].typ2]
 		Modifier = STAB * Type * Critical * random.uniform(0.85, 1)
-		Damage = ((2 * self.pkmn.lvl + 10)/250 * self.pkmn.atk/self.pkmn2.defe * atk.pwr + 2) * Modifier;
-		print(Damage)
+		Damage = round(((2 * self.pkmn[self.turno].lvl + 10)/250 * self.pkmn[self.turno].atk/self.pkmn[defending].defe * atk.pwr + 2) * Modifier, 0);
+		print("{} acerta {}! {} de dano ".format(self.pkmn[self.turno].nome, self.pkmn[defending].nome, Damage))
+		return Damage
 
 
 batalha = Batalha()
 i = batalha.EscolheAtaque()
-batalha.CalculaDano(batalha.pkmn.atks[i])  
+batalha.CalculaDano(batalha.pkmn[batalha.turno].atks[i])  
