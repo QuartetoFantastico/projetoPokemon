@@ -8,8 +8,10 @@ class Batalha:
 			self.pkmn = []
 			self.pkmn.append(pokemon.Pokemon())
 			self.pkmn[0].show()
+			self.pkmn[0].setStruggle()
 			self.pkmn.append(pokemon.Pokemon())
 			self.pkmn[1].show()
+			self.pkmn[1].setStruggle()
 			self.turno = self.IniciaTurno()
 
 	def IniciaTurno(self):
@@ -20,27 +22,23 @@ class Batalha:
 		return random.randint(0, 1)	
 
 	def AlternaTurno(self):
+		self.pkmn[self.turno].setStruggle()
 		self.turno = (self.turno + 1) % 2
 
 	def EscolheAtaque(self):
-		struggle = 1
 		true = 1
-		nAtks = self.pkmn[self.turno].getNatks()
+		nAtks = self.pkmn[self.turno].getNatks()			
 
-		for i in range(0, nAtks):
-			if (self.pkmn[self.turno].getAtks(i).ppCheck() != 0):
-				struggle = 0				
-
-		if struggle:
-			return 5
+		if (self.pkmn[self.turno].isStruggling()):
+			return 4
 
 		else:
 			print("Escolha o ataque:")
 			while true:			
 				for i in range(0, nAtks):
-					print("{}. {}".format(i + 1, self.pkmn[self.turno].getAtks(i).getNome()))
+					print("{}. {} {}/{}".format(i + 1, self.pkmn[self.turno].getAtks(i).getNome(), self.pkmn[self.turno].getAtks(i).getPpAtual(), self.pkmn[self.turno].getAtks(i).getPp()))
 				number = int(input(""))
-				if self.pkmn[self.turno].getAtks(i).ppCheck():
+				if (self.pkmn[self.turno].getAtks(i - 1).ppCheck()):
 					return number - 1
 				print("PP insuficiente, escolha outro ataque:")
 
@@ -86,7 +84,12 @@ class Batalha:
 		Damage = round((((2 * self.pkmn[self.turno].getLvl() + 10)/250) * self.pkmn[self.turno].getAtk() /self.pkmn[defending].getDefe()  * atk.getPwr() + 2) * Modifier, 0);
 		self.pkmn[defending].setHpAtual(self.pkmn[defending].getHpAtual() - Damage) 
 		print("{} acerta {} com {}! {} de dano ".format(self.pkmn[self.turno].getNome(), self.pkmn[defending].getNome(), atk.getNome(), Damage))
-	
+		
+		if (self.pkmn[self.turno].isStruggling()):
+			self.pkmn[self.turno].setHpAtual(self.pkmn[self.turno].getHpAtual() - Damage / 2) 
+			print("{} se machuca! {} de dano ".format(self.pkmn[self.turno].getNome(), Damage / 2))
+
+
 	def isOver(self):
 		return not (self.pkmn[0].isAlive() and self.pkmn[1].isAlive())  
 
@@ -95,5 +98,6 @@ batalha = Batalha()
   
 while (not batalha.isOver()):
 	i = batalha.EscolheAtaque()
+	batalha.pkmn[batalha.turno].getAtks(i).decreasePp()
 	batalha.CalculaDano(batalha.pkmn[batalha.turno].getAtks(i))
 	batalha.AlternaTurno()

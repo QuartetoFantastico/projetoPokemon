@@ -54,3 +54,7 @@ class Ataque:
 
 	def getPpAtual(self):
 		return self._ppAtual
+
+	def decreasePp(self):
+		if (self._nome is not 'Struggle'):
+			self._ppAtual -= 1

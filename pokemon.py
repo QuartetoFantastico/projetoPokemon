@@ -15,6 +15,7 @@ class Pokemon:
 		self._typ2 = -1
 		self._atks = []
 		self._hpAtual = -1
+		self._struggle = 0
 
 
 		leitor = leitorpkmn.Leitor()
@@ -34,6 +35,9 @@ class Pokemon:
 			while (len(lista) < 4):
 				lista.append(None)
 			self._atks = lista
+
+	def isStruggling(self):
+		return self._struggle
 
 	def isAlive(self):
 		return (self.getHpAtual() > 0)
@@ -83,6 +87,13 @@ class Pokemon:
 	
 	def setHpAtual(self, hp):
 		self._hpAtual = hp
+
+	def setStruggle(self):
+		struggle = 1
+		for i in range(0, self.getNatks()):
+			if (self.getAtks(i).ppCheck() != 0):
+				struggle = 0	
+		self._struggle = struggle
 	
 	def getHp(self):
 		return self._hp
