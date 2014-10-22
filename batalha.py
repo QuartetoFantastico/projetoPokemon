@@ -27,18 +27,19 @@ class Batalha:
 
 	def EscolheAtaque(self):
 		true = 1
-		nAtks = self.pkmn[self.turno].getNatks()			
+		atacando = self.pkmn[self.turno]
+		nAtks = atacando.getNatks()			
 
-		if (self.pkmn[self.turno].isStruggling()):
+		if (atacando.isStruggling()):
 			return 4
 
 		else:
 			print("Escolha o ataque:")
 			while true:			
 				for i in range(0, nAtks):
-					print("{}. {} {}/{}".format(i + 1, self.pkmn[self.turno].getAtks(i).getNome(), self.pkmn[self.turno].getAtks(i).getPpAtual(), self.pkmn[self.turno].getAtks(i).getPp()))
+					print("{}. {} {}/{}".format(i + 1, atacando.getAtks(i).getNome(), atacando.getAtks(i).getPpAtual(), atacando.getAtks(i).getPp()))
 				number = int(input(""))
-				if (self.pkmn[self.turno].getAtks(number - 1).ppCheck()):
+				if (atacando.getAtks(number - 1).ppCheck()):
 					return number - 1
 				print("PP insuficiente, escolha outro ataque:")
 
@@ -62,39 +63,43 @@ class Batalha:
 
 
 	def StabBonus(self, atk):
-		if (atk.getTyp() == self.pkmn[self.turno].getTyp1() or atk.getTyp() == self.pkmn[self.turno].getTyp2()): return 1.5
+		atacando = self.pkmn[self.turno]
+		if (atk.getTyp() == atacando.getTyp1() or atk.getTyp() == atacando.getTyp2()): return 1.5
 		return 1
 
 	def CriticalHit(self):
-		critical = (self.pkmn[self.turno].getSpd()/512);
+		atacando = self.pkmn[self.turno]
+		critical = (atacando.getSpd()/512);
 		temp = random.uniform(0, 1)
 		if (temp <= critical):
 			print("Critical Hit!")
-			return (2 * self.pkmn[self.turno].getLvl() + 5)/(self.pkmn[self.turno].getLvl() + 5)
+			return (2 * atacando.getLvl() + 5)/(atacando.getLvl() + 5)
 		return 1
 
 	def CalculaDano(self, atk):
 
+		atacando = self.pkmn[self.turno]
+		defendendo = self.pkmn[(self.turno + 1) % 2]
 		Critical = self.CriticalHit();
 		tab = self.TypeChart('tabela.txt');
 		STAB = self.StabBonus(atk)
-		defending = (self.turno + 1) % 2
-		Type = tab[atk.getTyp()][self.pkmn[defending].getTyp1()] * tab[atk.getTyp()][self.pkmn[defending].getTyp2()]
+
+		Type = tab[atk.getTyp()][defendendo.getTyp1()] * tab[atk.getTyp()][defendendo.getTyp2()]
 		Modifier = STAB * Type * Critical * random.uniform(0.85, 1)
 
 		if (atk.isSpecial()):
-			Damage = round((((2 * self.pkmn[self.turno].getLvl() + 10)/250) * self.pkmn[self.turno].getAtk() / self.pkmn[defending].getDefe() * atk.getPwr() + 2) * Modifier, 0);
+			Damage = round(((2 * atacando.getLvl() + 10)/250 * atacando.getAtk() / defendendo.getDefe() * atk.getPwr() + 2) * Modifier, 0);
 		else:
-			Damage = round((((2 * self.pkmn[self.turno].getLvl() + 10)/250) * self.pkmn[self.turno].getSpc() / self.pkmn[defending].getSpc() * atk.getPwr() + 2) * Modifier, 0);
+			Damage = round(((2 * atacando.getLvl() + 10)/250 * atacando.getSpc() / defendendo.getSpc() * atk.getPwr() + 2) * Modifier, 0);
 
 		if (self.isHit(atk)):
-			self.pkmn[defending].setHpAtual(self.pkmn[defending].getHpAtual() - Damage) 
-			print("{} acerta {} com {}! {} de dano ".format(self.pkmn[self.turno].getNome(), self.pkmn[defending].getNome(), atk.getNome(), Damage))
-		else: print("{} não acertou {} com {}!".format(self.pkmn[self.turno].getNome(), self.pkmn[defending].getNome(), atk.getNome()))
+			defendendo.setHpAtual(defendendo.getHpAtual() - Damage) 
+			print("{} acerta {} com {}! {} de dano ".format(atacando.getNome(), defendendo.getNome(), atk.getNome(), Damage))
+		else: print("{} não acertou {} com {}!".format(atacando.getNome(), defendendo.getNome(), atk.getNome()))
 
-		if (self.pkmn[self.turno].isStruggling()):
-			self.pkmn[self.turno].setHpAtual(self.pkmn[self.turno].getHpAtual() - Damage / 2) 
-			print("{} se machuca! {} de dano ".format(self.pkmn[self.turno].getNome(), Damage / 2))
+		if (atacando.isStruggling()):
+			atacando.setHpAtual(atacando.getHpAtual() - Damage / 2) 
+			print("{} se machuca! {} de dano ".format(atacando.getNome(), Damage / 2))
 
 
 	def isHit(self, atk):
