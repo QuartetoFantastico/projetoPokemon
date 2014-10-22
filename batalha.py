@@ -66,7 +66,6 @@ class Batalha:
 		Modifier = STAB * Type * Critical * random.uniform(0.85, 1)
 		Damage = round(((2 * self.pkmn[self.turno].getLvl() + 10)/250 * self.pkmn[self.turno].getAtk() /self.pkmn[defending].getDefe()  * atk.getPwr() + 2) * Modifier, 0);
 		print("{} acerta {} com {}! {} de dano ".format(self.pkmn[self.turno].getNome(), self.pkmn[defending].getNome(), atk.getNome(), Damage))
-		return Damage
 
 
 batalha = Batalha()
