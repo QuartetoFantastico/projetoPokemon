@@ -11,7 +11,7 @@ class Pokemon:
 		self.defe = -1
 		self.spd = -1
 		self.spc = -1
-		self.typ1 =-1
+		self.typ1 = -1
 		self.typ2 = -1
 		self.atks = []
 
@@ -51,6 +51,61 @@ class Pokemon:
 			if (self.atks[i] is not None):
 				self.atks[i].show()
 
+	def setHp(self, hp):
+		self.Hp = hp
 
+	def setNome(self, nome):
+		self.nome = nome
+
+	def setHp(self, hp):
+		self.Hp = hp
+
+	def setAtk(self, atk):
+		self.atk = atk
+
+	def setDefe(self, defe):
+		self.defe = defe
+
+	def setSpd(self, spd):
+		self.spd = spd
+
+	def setSpc(self, spc):
+		self.spc = spc
+
+	def setTyp1(self, typ1):
+		self.typ1 = typ1
+
+	def setTyp2(self, typ2):
+		self.typ2 = typ2
+
+	def getHp(self):
+		return self.hp
+
+	def getLvl(self):
+		return self.lvl
+
+	def getNome(self):
+		return self.nome
+
+	def getHp(self):
+		return self.Hp
+
+	def getAtk(self):
+		return self.atk
+
+	def getDefe(self):
+		return self.defe
+
+	def getSpd(self):
+		return self.spd
+
+	def getSpc(self):
+		return self.spc
+
+	def getTyp1(self):
+		return self.typ1
+
+	def getTyp2(self):
+		return self.typ2
 
 
