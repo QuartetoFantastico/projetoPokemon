@@ -3,7 +3,6 @@ import random
 
 class Batalha:
 
-
 	def __init__(self):
 			self.pkmn = []
 			self.pkmn.append(pokemon.Pokemon())
@@ -43,7 +42,6 @@ class Batalha:
 					return number - 1
 				print("PP insuficiente, escolha outro ataque:")
 
-
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
 		tab = []
@@ -55,12 +53,7 @@ class Batalha:
 			tab[i] = [float(j) for j in tab[i]]
 			i+= 1
 			line = arquivo.readline()
-
-
-		# for i in range(0, len(tab) - 1):
-		# 	print(tab[i])	
 		return tab
-
 
 	def StabBonus(self, atk):
 		atacando = self.pkmn[self.turno]
@@ -100,7 +93,6 @@ class Batalha:
 		if (atacando.isStruggling()):
 			atacando.setHpAtual(atacando.getHpAtual() - Damage / 2) 
 			print("{} se machuca! {} de dano ".format(atacando.getNome(), Damage / 2))
-
 
 	def isHit(self, atk):
 		x = random.uniform(0, 1)
