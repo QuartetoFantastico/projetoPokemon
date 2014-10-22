@@ -8,16 +8,10 @@ Thunder
 16
 70
 110
-10
-Electro Ball
-16
+10 Electro Ball 16
 100
 80
-10
-Quick Attack
-0
-100
-40
+10 Quick Attack 0 100 40
 30
 Rock Smash
 1

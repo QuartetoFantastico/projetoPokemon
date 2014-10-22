@@ -61,9 +61,19 @@ class Batalha:
 class Pokemon:
 
 	def __init__(self):
+		self.nome = ''
+		self.lvl = -1
+		self.hp = -1
+		self.atk = -1
+		self.defe = -1
+		self.spd = -1
+		self.spc = -1
+		self.typ1 =-1
+		self.typ2 = -1
+		self.atks = []
+
 		leitor = Leitor()
 		lista = leitor.leitorDePokemons()
-		print(lista)
 		if (len(lista) >= 10):
 			self.nome = lista.pop(0)
 			self.lvl = lista.pop(0)
@@ -93,7 +103,7 @@ class Pokemon:
 		print('Tipos: {} e {}'.format(self.typ1, self.typ2))
 		print()
 		print('Moves:')
-		for i in range(0,4):
+		for i in range(0,len(self.atks)):
 			if (self.atks[i] is not None):
 				self.atks[i].show()
 
@@ -124,7 +134,7 @@ class Leitor:
 
 	def leitorDePokemons(self):
 
-		while (self.line is not None and len(self.listaAtributosPokemon) < 10):
+		while (self.line and len(self.listaAtributosPokemon) < 10):
 			atributos = self.line.split()
 			self.listaAtributosPokemon.extend(atributos)
 			self.line = stdin.readline()
@@ -139,14 +149,19 @@ class Leitor:
 			self.listaAtributosPokemon = self.listaAtributosPokemon[0:10]
 
 		nome = self.listaAtributosPokemon.pop(0)
-		print(self.listaAtributosPokemon)
-		self.listaAtributosPokemon = [int(i) for i in self.listaAtributosPokemon]
+		try:
+			self.listaAtributosPokemon = [int(i) for i in self.listaAtributosPokemon]
+		except ValueError:
+			print("ERRO: ALGUM ATRIBUTO DO POKEMON FALTANDO")
 		self.listaAtributosPokemon.insert(0, nome)
-		print(self.listaAtributosPokemon)
 
 		listaAtks = []
 		for i in range (0, self.listaAtributosPokemon[9]):
-			listaAtks.append(self.leitorDeAtk())
+			atk = self.leitorDeAtk()
+			if (atk is None):
+				self.listaAtributosPokemon.extend(listaAtks)
+				return self.listaAtributosPokemon
+			listaAtks.append(atk)
 		self.listaAtributosPokemon.extend(listaAtks)
 
 		return self.listaAtributosPokemon
@@ -155,26 +170,39 @@ class Leitor:
 
 		atk = Ataque()
 		cont = len(self.listaAtributosAtk)
-		while (self.line is not None and len(self.listaAtributosAtk) < 5):
+		while (self.line and len(self.listaAtributosAtk) < 5):
 			atributos = self.line.split()
 			self.listaAtributosAtk.extend(atributos)
 			self.line = stdin.readline()
 
+		if (len(self.listaAtributosAtk) < 5): return None
+
 		p = re.compile('[a-zA-Z]+')
 		if (p.match(self.listaAtributosAtk[1])):
 			atk.nome = self.listaAtributosAtk.pop(0) + ' ' + self.listaAtributosAtk.pop(0)
-			if (self.line is not None):
+			if (self.line):
 				atributos = self.line.split()
 				self.listaAtributosAtk.extend(atributos)
 				self.line = stdin.readline()
 			else: print("Ataque inválido!")
 		else: atk.nome = self.listaAtributosAtk.pop(0)
 
-		self.listaAtributosAtk = [int(i) for i in self.listaAtributosAtk]
-		atk.typ = self.listaAtributosAtk.pop(0)
-		atk.acu = self.listaAtributosAtk.pop(0)
-		atk.pwr = self.listaAtributosAtk.pop(0)
-		atk.pp = self.listaAtributosAtk.pop(0)
+		atributos = self.listaAtributosAtk[0:4]
+		self.listaAtributosAtk = self.listaAtributosAtk[4:len(self.listaAtributosAtk)]
+
+		if (len(atributos) < 4):
+			print("Ataque inválido!")
+			return None
+
+		try:
+			atributos = [int(i) for i in atributos]
+		except ValueError:
+			print("ERRO: ALGUM ATRIBUTO DO ATAQUE FALTANDO")
+
+		atk.typ = atributos.pop(0)
+		atk.acu = atributos.pop(0)
+		atk.pwr = atributos.pop(0)
+		atk.pp = atributos.pop(0)
 		atk.ppAtual = atk.pp
 
 		return atk
