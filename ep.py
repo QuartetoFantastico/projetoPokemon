@@ -4,17 +4,24 @@ import re
 
 class Batalha:
 
+	def __init__(self):
+			self.pkmn = Pokemon()
+			self.pkmn.show()
+			self.pkmn2 = Pokemon()
+			self.pkmn2.show()
+			
 	def IniciaTurno(self):
-		if (pkmn.spd > pkmn2.spd):
-			return pkmn
-		elif (pkmn2.spd > pkmn.spd):
-			return pkmn2
-		else:
-		    number = random.randint(1, 3)	
-		    if (number == 1):
-		    	return pkmn
-		    else:
-		    	return pkmn2
+			if (self.pkmn.spd > self.pkmn2.spd):
+					return self.pkmn
+			elif (self.pkmn2.spd > self.pkmn.spd):
+					return pkmn2
+			else:
+					number = random.randint(1, 3)	
+					if (number == 1):
+							return self.pkmn
+					else:
+							return self.pkmn2
+
 
 	def EscolheAtaque(self):
 		number = int(input("Escolha o número do ataque"))
@@ -39,14 +46,14 @@ class Batalha:
 
 
 	def StabBonus():
-		if (atk.typ == pkmn.typ1 or atk.typ == pkmn.typ2): return 1.5
+		if (atk.typ == self.pkmn.typ1 or atk.typ == self.pkmn.typ2): return 1.5
 		return 1
 
 	def CriticalHit():
-		critical = (pkmn.spd/512);
+		critical = (self.pkmn.spd/512);
 		temp = random.uniform(0, 1)
 		if (temp <= critical):
-			return (2 * pkmn.lvl + 5)/(pkmn.lvl+5)
+			return (2 * self.pkmn.lvl + 5)/(self.pkmn.lvl+5)
 		return 1
 
 	def CalculaDano(self, atk):
@@ -54,9 +61,9 @@ class Batalha:
 		critical = CriticalHit();
 		tab = TypeChart();
 		STAB = StabBonus()
-		Type = tab[atk.typ][pkmn2.typ1] * [atk.typ][pkmn2.typ2] 
+		Type = tab[atk.typ][self.pkmn2.typ1] * [atk.typ][self.pkmn2.typ2] 
 		Modifier = STAB * Type * Critical * random.uniform(0.85, 1)
-		Damage = ((2 * pkmn.lvl + 10)/250 * pkmn.atk/pkmn2.defe * atk.pwr + 2) * Modifier;
+		Damage = ((2 * self.pkmn.lvl + 10)/250 * self.pkmn.atk/self.pkmn2.defe * atk.pwr + 2) * Modifier;
 		
 class Pokemon:
 
@@ -209,15 +216,12 @@ class Leitor:
 
 
 
-# leitor = Leitor()
-# pkmn = leitor.leitorDePokemon()
-# pkmn2 = leitor.leitorDePokemon()
+##### Main #####
 
 
-# battle = Batalha()
-# battle.TypeChart('tabela.txt')    
 
-pkmn = Pokemon()
-pkmn.show()
+battle = Batalha()
 
 
+
+#battle.TypeChart('tabela.txt')    
