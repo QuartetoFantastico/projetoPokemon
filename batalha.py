@@ -20,8 +20,10 @@ class Batalha:
 		return random.randint(0, 1)	
 
 	def EscolheAtaque(self):
-		number = int(input("Escolha o número do ataque\n"))
-		return number
+		for i in range(0, self.pkmn[self.turno].getNatks()):
+			print("{}. {}".format(i + 1, self.pkmn[self.turno].getAtks(i).getNome()))
+		number = int(input("Escolha o ataque:\n"))
+		return number - 1
 
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
@@ -42,7 +44,7 @@ class Batalha:
 
 
 	def StabBonus(self, atk):
-		if (atk.typ == self.pkmn[self.turno].getTyp1() or atk.typ == self.pkmn[self.turno].getTyp2()): return 1.5
+		if (atk.getTyp() == self.pkmn[self.turno].getTyp1() or atk.getTyp() == self.pkmn[self.turno].getTyp2()): return 1.5
 		return 1
 
 	def CriticalHit(self):
@@ -59,13 +61,13 @@ class Batalha:
 		tab = self.TypeChart('tabela.txt');
 		STAB = self.StabBonus(atk)
 		defending = (self.turno + 1) % 2
-		Type = tab[atk.typ][self.pkmn[defending].getTyp1()] * tab[atk.typ][self.pkmn[defending].getTyp2()]
+		Type = tab[atk.getTyp()][self.pkmn[defending].getTyp1()] * tab[atk.getTyp()][self.pkmn[defending].getTyp2()]
 		Modifier = STAB * Type * Critical * random.uniform(0.85, 1)
-		Damage = round(((2 * self.pkmn[self.turno].getLvl() + 10)/250 * self.pkmn[self.turno].getAtk() /self.pkmn[defending].getDefe()  * atk.pwr + 2) * Modifier, 0);
+		Damage = round(((2 * self.pkmn[self.turno].getLvl() + 10)/250 * self.pkmn[self.turno].getAtk() /self.pkmn[defending].getDefe()  * atk.getPwr() + 2) * Modifier, 0);
 		print("{} acerta {}! {} de dano ".format(self.pkmn[self.turno].getNome(), self.pkmn[defending].getNome(), Damage))
 		return Damage
 
 
 batalha = Batalha()
 i = batalha.EscolheAtaque()
-batalha.CalculaDano(batalha.pkmn[batalha.turno].atks[i])  
+batalha.CalculaDano(batalha.pkmn[batalha.turno].getAtks(i))  

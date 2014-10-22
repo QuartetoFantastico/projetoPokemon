@@ -58,13 +58,13 @@ class Leitor:
 
 		p = re.compile('[a-zA-Z]+')
 		if (p.match(self.listaAtributosAtk[1])):
-			atk.nome = self.listaAtributosAtk.pop(0) + ' ' + self.listaAtributosAtk.pop(0)
+			atk.setNome (self.listaAtributosAtk.pop(0) + ' ' + self.listaAtributosAtk.pop(0))
 			if (self.line is not None):
 				atributos = self.line.split()
 				self.listaAtributosAtk.extend(atributos)
 				self.line = stdin.readline()
 			else: print("Ataque inválido!")
-		else: atk.nome = self.listaAtributosAtk.pop(0)
+		else: atk.setNome(self.listaAtributosAtk.pop(0))
 
 
 		atributos = self.listaAtributosAtk[0:4]
@@ -80,10 +80,10 @@ class Leitor:
 			print("ERRO: ALGUM ATRIBUTO DO ATAQUE FALTANDO")
 
 
-		atk.typ = atributos.pop(0)
-		atk.acu = atributos.pop(0)
-		atk.pwr = atributos.pop(0)
-		atk.pp = atributos.pop(0)
-		atk.ppAtual = atk.pp
+		atk.setTyp(atributos.pop(0))
+		atk.setAcu(atributos.pop(0))
+		atk.setPwr(atributos.pop(0))
+		atk.setPp(atributos.pop(0))
+		atk.setPpAtual(atk.getPp())
 
 		return atk

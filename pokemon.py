@@ -4,108 +4,113 @@ from sys import stdin
 class Pokemon:
 
 	def __init__(self):
-		self.nome = ''
-		self.lvl = -1
-		self.hp = -1
-		self.atk = -1
-		self.defe = -1
-		self.spd = -1
-		self.spc = -1
-		self.typ1 = -1
-		self.typ2 = -1
-		self.atks = []
+		self._nome = ''
+		self._lvl = -1
+		self._hp = -1
+		self._atk = -1
+		self._defe = -1
+		self._spd = -1
+		self._spc = -1
+		self._typ1 = -1
+		self._typ2 = -1
+		self._atks = []
 
 
 		leitor = leitorpkmn.Leitor()
 		lista = leitor.leitorDePokemons()
 		if (len(lista) >= 10):
-			self.nome = lista.pop(0)
-			self.lvl = lista.pop(0)
-			self.hp = lista.pop(0)
-			self.atk = lista.pop(0)
-			self.defe = lista.pop(0)
-			self.spd = lista.pop(0)
-			self.spc = lista.pop(0)
-			self.typ1 =lista.pop(0)
-			self.typ2 = lista.pop(0)
+			self._nome = lista.pop(0)
+			self._lvl = lista.pop(0)
+			self._hp = lista.pop(0)
+			self._atk = lista.pop(0)
+			self._defe = lista.pop(0)
+			self._spd = lista.pop(0)
+			self._spc = lista.pop(0)
+			self._typ1 =lista.pop(0)
+			self._typ2 = lista.pop(0)
 			lista.pop(0)
 			while (len(lista) < 4):
 				lista.append(None)
-			self.atks = lista
+			self._atks = lista
 
 	def isAlive(self):
-		return (self.hpAtual > 0)
+		return (self._hpAtual > 0)
 
 	def show(self):
 		print()
-		print('Nome: {}'.format(self.nome))
-		print('Level: {}'.format(self.lvl))
-		print('HP: {}'.format(self.hp))
-		print('Ataque: {}'.format(self.atk))
-		print('Defesa: {}'.format(self.defe))
-		print('Speed: {}'.format(self.spd))
-		print('Tipos: {} e {}'.format(self.typ1, self.typ2))
+		print('Nome: {}'.format(self._nome))
+		print('Level: {}'.format(self._lvl))
+		print('HP: {}'.format(self._hp))
+		print('Ataque: {}'.format(self._atk))
+		print('Defesa: {}'.format(self._defe))
+		print('Speed: {}'.format(self._spd))
+		print('Tipos: {} e {}'.format(self._typ1, self._typ2))
 		print()
 		print('Moves:')
 		for i in range(0,4):
-			if (self.atks[i] is not None):
-				self.atks[i].show()
-
-	def setHp(self, hp):
-		self.Hp = hp
+			if (self._atks[i] is not None):
+				self._atks[i].show()
 
 	def setNome(self, nome):
-		self.nome = nome
+		self._nome = nome
 
 	def setHp(self, hp):
-		self.Hp = hp
+		self._hp = hp
 
 	def setAtk(self, atk):
-		self.atk = atk
+		self._atk = atk
 
 	def setDefe(self, defe):
-		self.defe = defe
+		self._defe = defe
 
 	def setSpd(self, spd):
-		self.spd = spd
+		self._spd = spd
 
 	def setSpc(self, spc):
-		self.spc = spc
+		self._spc = spc
 
 	def setTyp1(self, typ1):
-		self.typ1 = typ1
+		self._typ1 = typ1
 
 	def setTyp2(self, typ2):
-		self.typ2 = typ2
+		self._typ2 = typ2
+
+	def setAtks(self, i, atk):
+		self._atks.append(atk)
 
 	def getHp(self):
-		return self.hp
+		return self._hp
 
 	def getLvl(self):
-		return self.lvl
+		return self._lvl
 
 	def getNome(self):
-		return self.nome
+		return self._nome
 
 	def getHp(self):
-		return self.Hp
+		return self._hp
 
 	def getAtk(self):
-		return self.atk
+		return self._atk
 
 	def getDefe(self):
-		return self.defe
+		return self._defe
 
 	def getSpd(self):
-		return self.spd
+		return self._spd
 
 	def getSpc(self):
-		return self.spc
+		return self._spc
 
 	def getTyp1(self):
-		return self.typ1
+		return self._typ1
 
 	def getTyp2(self):
-		return self.typ2
+		return self._typ2
 
+	def getAtks(self, i):
+		return self._atks[i]
+
+	def getNatks(self):
+		return len(self._atks)
 
