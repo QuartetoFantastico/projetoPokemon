@@ -1,5 +1,6 @@
 import pokemon
 import random
+import re
 
 class Batalha:
 
@@ -27,7 +28,8 @@ class Batalha:
 	def EscolheAtaque(self):
 		true = 1
 		atacando = self.pkmn[self.turno]
-		nAtks = atacando.getNatks()			
+		nAtks = atacando.getNatks()	
+		escolheu = 0		
 
 		if (atacando.isStruggling()):
 			return 4
@@ -37,10 +39,20 @@ class Batalha:
 			while true:			
 				for i in range(0, nAtks):
 					print("{}. {} {}/{}".format(i + 1, atacando.getAtks(i).getNome(), atacando.getAtks(i).getPpAtual(), atacando.getAtks(i).getPp()))
-				number = int(input(""))
-				if (atacando.getAtks(number - 1).ppCheck()):
-					return number - 1
-				print("PP insuficiente, escolha outro ataque:")
+				while (not escolheu):
+					number = input("")
+					p = re.compile('[0-9]')
+					if (p.match(number)):
+						number = int(number)
+						if (number > nAtks or number < 1):
+							print("Ataque inválido! Escolha outro ataque.")
+						else: escolheu = 1
+						if (escolheu):
+							if (atacando.getAtks(number - 1).ppCheck()):
+								return number - 1
+							print("PP insuficiente, escolha outro ataque:")
+							escolheu = 0
+					else: print("Ataque inválido! Escolha outro ataque.")
 
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
@@ -91,8 +103,9 @@ class Batalha:
 		else: print("{} não acertou {} com {}!".format(atacando.getNome(), defendendo.getNome(), atk.getNome()))
 
 		if (atacando.isStruggling()):
-			atacando.setHpAtual(atacando.getHpAtual() - Damage / 2) 
-			print("{} se machuca! {} de dano ".format(atacando.getNome(), Damage / 2))
+			Damage = round(Damage / 2, 0)
+			atacando.setHpAtual(atacando.getHpAtual() - Damage)
+			print("{} se machuca! {} de dano ".format(atacando.getNome(), Damage))
 
 	def isHit(self, atk):
 		x = random.uniform(0, 1)
