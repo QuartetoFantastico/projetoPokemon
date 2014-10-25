@@ -86,6 +86,26 @@ class TestPokemon(unittest.TestCase):
         self.assertEqual(r, nome)
 
 
+    def testIsOver(self):
+        pkmn[0]._getHpAtual = 0 
+        pkmn[1]._getHpAtual = 0
+        p = pkmn.isOver()
+        self.assertEqual(p, 1)
+        pkmn[0]._getHpAtual = 1 
+        pkmn[1]._getHpAtual = 0
+        p = pkmn.isOver()
+        self.assertEqual(p, 0)
+        pkmn[0]._getHpAtual = 0 
+        pkmn[1]._getHpAtual = 1
+        p = pkmn.isOver()
+        self.assertEqual(r, 0)
+        pkmn[0]._getHpAtual = 1 
+        pkmn[1]._getHpAtual = 1
+        p = pkmn.isOver()
+        self.assertEqual(p, 0)
+
+
+
 # class TestAtaque(unittest.TestCase):
     
 #     # O que testar?
