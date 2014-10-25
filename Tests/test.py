@@ -1,7 +1,7 @@
-import random
+import pokemon
 import unittest
 
-class TestLeitorDePokemon(unittest.TestCase):
+# class TestLeitorDePokemon(unittest.TestCase):
 
     # O que testar?
     #
@@ -24,27 +24,27 @@ class TestLeitorDePokemon(unittest.TestCase):
     #<ACU>
     #<PWR>
     #<PP>
-    def setUp(self):
-        self.seq = range(10)
+    # def setUp(self):
+    #     self.seq = range(10)
 
-    def test_shuffle(self):
-        # make sure the shuffled sequence does not lose any elements
-        random.shuffle(self.seq)
-        self.seq.sort()
-        self.assertEqual(self.seq, range(10))
+    # def test_shuffle(self):
+    #     # make sure the shuffled sequence does not lose any elements
+    #     random.shuffle(self.seq)
+    #     self.seq.sort()
+    #     self.assertEqual(self.seq, range(10))
 
-        # should raise an exception for an immutable sequence
-        self.assertRaises(TypeError, random.shuffle, (1,2,3))
+    #     # should raise an exception for an immutable sequence
+    #     self.assertRaises(TypeError, random.shuffle, (1,2,3))
 
-    def test_choice(self):
-        element = random.choice(self.seq)
-        self.assertTrue(element in self.seq)
+    # def test_choice(self):
+    #     element = random.choice(self.seq)
+    #     self.assertTrue(element in self.seq)
 
-    def test_sample(self):
-        with self.assertRaises(ValueError):
-            random.sample(self.seq, 20)
-        for element in random.sample(self.seq, 5):
-            self.assertTrue(element in self.seq)
+    # def test_sample(self):
+    #     with self.assertRaises(ValueError):
+    #         random.sample(self.seq, 20)
+    #     for element in random.sample(self.seq, 5):
+    #         self.assertTrue(element in self.seq)
 
 class TestPokemon(unittest.TestCase):
     
@@ -54,14 +54,44 @@ class TestPokemon(unittest.TestCase):
     # Se o número de ataques corresponde ao tamanho da lista
     #
     def setUp(self):
-      pass
+      pkmn = pokemon.Pokemon()
 
-class TestAtaque(unittest.TestCase):
+    def testIsStruggling(self):
+        pkmn._struggle = 0
+        r = pkmn.isStruggling()
+        self.assertEqual(r, 0)
+        pkmn._struggle = 1
+        r = pkmn.isStruggling()
+        self.assertEqual(r, 1)
+
+    def testIsAlive(self):
+        pkmn._getHpAtual = 0 
+        r = pkmn.isAlive()
+        self.assertEqual(r, 0)
+        pkmn._getHpAtual = random.randint(-500, -1) 
+        r = pkmn.isAlive()
+        self.assertEqual(r, 0)
+        pkmn._getHpAtual = random.randint(1, 255) 
+        r = pkmn.isAlive()
+        self.assertEqual(r, 1)
+
+    def testNome(self):
+        nome = 'Teste'
+        l = list(nome)
+        random.shuffle(l)
+        nome = l.join('')
+        pkmn.setNome(nome)
+        self.assertEqual(pkmn._nome, nome)
+        r = pkmn.getNome()
+        self.assertEqual(r, nome)
+
+
+# class TestAtaque(unittest.TestCase):
     
-    # O que testar?
-    #
+#     # O que testar?
+#     #
 
-class TestBatalha(unittest.TestCase):
+# class TestBatalha(unittest.TestCase):
   
 
 if __name__ == '__main__':

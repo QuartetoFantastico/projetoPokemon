@@ -37,7 +37,7 @@ class Pokemon:
 			self._atks = lista
 
 	def isStruggling(self):
-		return self._struggle
+		return self._struggle == 1
 
 	def isAlive(self):
 		return (self.getHpAtual() > 0)
@@ -81,9 +81,6 @@ class Pokemon:
 
 	def setTyp2(self, typ2):
 		self._typ2 = typ2
-
-	def setAtks(self, i, atk):
-		self._atks.append(atk)
 	
 	def setHpAtual(self, hp):
 		self._hpAtual = hp
