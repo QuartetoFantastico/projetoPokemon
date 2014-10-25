@@ -84,9 +84,11 @@ class TestPokemon(unittest.TestCase):
         self.pkmn._hpAtual = 0 
         r = self.pkmn.isAlive()
         self.assertEqual(r, False)
+
         self.pkmn._hpAtual = random.randint(-500, -1) 
         r = self.pkmn.isAlive()
         self.assertEqual(r, False)
+
         self.pkmn._hpAtual = random.randint(1, 255) 
         r = self.pkmn.isAlive()
         self.assertEqual(r, True)
@@ -98,6 +100,7 @@ class TestPokemon(unittest.TestCase):
         nome = ''.join(l)
         self.pkmn.setNome(nome)
         self.assertEqual(self.pkmn._nome, nome)
+
         r = self.pkmn.getNome()
         self.assertEqual(r, nome)
 
@@ -105,6 +108,7 @@ class TestPokemon(unittest.TestCase):
         hp = random.randint(1,255)
         self.pkmn.setHp(hp)
         self.assertEqual(self.pkmn._hp, hp)
+
         r = self.pkmn.getHp()
         self.assertEqual(r, hp)
 
@@ -112,6 +116,7 @@ class TestPokemon(unittest.TestCase):
         atk = random.randint(1,255)
         self.pkmn.setAtk(atk)
         self.assertEqual(self.pkmn._atk, atk)
+
         r = self.pkmn.getAtk()
         self.assertEqual(r, atk)
 
@@ -119,6 +124,7 @@ class TestPokemon(unittest.TestCase):
         atk = random.randint(1,255)
         self.pkmn.setAtk(atk)
         self.assertEqual(self.pkmn._atk, atk)
+
         r = self.pkmn.getAtk()
         self.assertEqual(r, atk)
 
@@ -126,6 +132,7 @@ class TestPokemon(unittest.TestCase):
         defe = random.randint(1,255)
         self.pkmn.setDefe(defe)
         self.assertEqual(self.pkmn._defe, defe)
+
         r = self.pkmn.getDefe()
         self.assertEqual(r, defe)
 
@@ -133,6 +140,7 @@ class TestPokemon(unittest.TestCase):
         spd = random.randint(1,255)
         self.pkmn.setSpd(spd)
         self.assertEqual(self.pkmn._spd, spd)
+
         r = self.pkmn.getSpd()
         self.assertEqual(r, spd)
 
@@ -140,6 +148,7 @@ class TestPokemon(unittest.TestCase):
         spc = random.randint(1,255)
         self.pkmn.setSpc(spc)
         self.assertEqual(self.pkmn._spc, spc)
+
         r = self.pkmn.getSpc()
         self.assertEqual(r, spc)
 
@@ -147,6 +156,7 @@ class TestPokemon(unittest.TestCase):
         typ1 = random.randint(1,255)
         self.pkmn.setTyp1(typ1)
         self.assertEqual(self.pkmn._typ1, typ1)
+
         r = self.pkmn.getTyp1()
         self.assertEqual(r, typ1)
 
@@ -154,6 +164,7 @@ class TestPokemon(unittest.TestCase):
         typ2 = random.randint(1,255)
         self.pkmn.setTyp2(typ2)
         self.assertEqual(self.pkmn._typ2, typ2)
+
         r = self.pkmn.getTyp2()
         self.assertEqual(r, typ2)
 
@@ -161,6 +172,7 @@ class TestPokemon(unittest.TestCase):
         hpatual = random.randint(1,255)
         self.pkmn.setHpAtual(hpatual)
         self.assertEqual(self.pkmn._hpAtual, hpatual)
+
         r = self.pkmn.getHpAtual()
         self.assertEqual(r, hpatual)
 
@@ -168,6 +180,7 @@ class TestPokemon(unittest.TestCase):
         defe = random.randint(1,255)
         self.pkmn.setDefe(defe)
         self.assertEqual(self.pkmn._defe, defe)
+
         r = self.pkmn.getDefe()
         self.assertEqual(r, defe)
 
@@ -191,10 +204,95 @@ class TestPokemon(unittest.TestCase):
 
 
 
-# class TestAtaque(unittest.TestCase):
-    
-#     # O que testar?
-#     #
+class TestAtaque(unittest.TestCase):
+
+    def setUp(self):
+        self.atk = ataque.Ataque()
+
+    def testPp(self):
+        pp = random.randint(1,50)
+        self.atk.setPp(pp)
+        self.assertEqual(self.atk._pp, pp)
+
+        r = self.atk.getPp()
+        self.assertEqual(r, pp)
+
+    def testTyp(self):
+        typ = random.randint(0,16)
+        self.atk.setTyp(typ)
+        self.assertEqual(self.atk._typ, typ)
+
+        r = self.atk.getTyp()
+        self.assertEqual(r, typ)
+
+    def testNome(self):
+        nome = 'Teste'
+        l = list(nome)
+        random.shuffle(l)
+        nome = ''.join(l)
+        self.atk.setNome(nome)
+        self.assertEqual(self.atk._nome, nome)
+
+        r = self.atk.getNome()
+        self.assertEqual(r, nome)
+
+    def testAcu(self):
+        acu = random.randint(0,100)
+        self.atk.setAcu(acu)
+        self.assertEqual(self.atk._acu, acu)
+
+        r = self.atk.getAcu()
+        self.assertEqual(r, acu)
+
+    def testPwr(self):
+        pwr = random.randint(10,120)
+        self.atk.setPwr(pwr)
+        self.assertEqual(self.atk._pwr, pwr)
+
+        r = self.atk.getPwr()
+        self.assertEqual(r, pwr)
+
+    def testPpAtual(self):
+        ppAtual = random.randint(1,50)
+        self.atk.setPpAtual(ppAtual)
+        self.assertEqual(self.atk._ppAtual, ppAtual)
+
+        r = self.atk.ppCheck()
+        self.assertEqual(r, True)
+
+        r = self.atk.getPpAtual()
+        self.assertEqual(r, ppAtual)
+
+        self.atk.setPpAtual(0)
+        r = self.atk.ppCheck()
+        self.assertEqual(r, False)
+
+    def testDecreasePp(self):
+        ppAtual = random.randint(1,50)
+        self.atk.setPpAtual(ppAtual)
+        self.atk.decreasePp()
+        self.assertEqual(self.atk._ppAtual, ppAtual - 1)
+
+        self.atk._nome = 'Struggle'
+        self.atk.setPpAtual(ppAtual)
+        self.atk.decreasePp()
+        self.assertEqual(self.atk._ppAtual, ppAtual)
+
+    def testIsSpecial(self):
+        typ = random.randint(9,15)
+        self.atk.setTyp(typ)
+        r = self.atk.isSpecial()
+        self.assertEqual(r, True)
+
+        typ = random.randint(0,8)
+        self.atk.setTyp(typ)
+        r = self.atk.isSpecial()
+        self.assertEqual(r, False)
+
+        self.atk.setTyp(16)
+        r = self.atk.isSpecial()
+        self.assertEqual(r, False)
+
 
 # class TestBatalha(unittest.TestCase):
   
