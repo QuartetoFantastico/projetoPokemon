@@ -45,6 +45,12 @@ import unittest
     #         random.sample(self.seq, 20)
     #     for element in random.sample(self.seq, 5):
     #         self.assertTrue(element in self.seq)
+    def testPokemonInvalido(self):
+        #Verificar se isso funciona
+        arquivo = open('invalid.txt', 'r')
+        l = Leitor()
+        self.assertEqual(l, [])
+
 
 class TestPokemon(unittest.TestCase):
     
@@ -86,6 +92,7 @@ class TestPokemon(unittest.TestCase):
         self.assertEqual(r, nome)
 
 
+
     def testIsOver(self):
         pkmn[0]._getHpAtual = 0 
         pkmn[1]._getHpAtual = 0
@@ -98,7 +105,7 @@ class TestPokemon(unittest.TestCase):
         pkmn[0]._getHpAtual = 0 
         pkmn[1]._getHpAtual = 1
         p = pkmn.isOver()
-        self.assertEqual(r, 0)
+        self.assertEqual(p, 0)
         pkmn[0]._getHpAtual = 1 
         pkmn[1]._getHpAtual = 1
         p = pkmn.isOver()
