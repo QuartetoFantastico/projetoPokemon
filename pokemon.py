@@ -42,22 +42,6 @@ class Pokemon:
 	def isAlive(self):
 		return (self.getHpAtual() > 0)
 
-	def show(self):
-		print()
-		print('Nome: {}'.format(self._nome))
-		print('Level: {}'.format(self._lvl))
-		print('HP: {}'.format(self._hp))
-		print('Ataque: {}'.format(self._atk))
-		print('Defesa: {}'.format(self._defe))
-		print('Speed: {}'.format(self._spd))
-		print('Tipos: {} e {}'.format(self._typ1, self._typ2))
-		print('Num Ataques: {}'.format(self.getNatks()))
-		print()
-		print('Moves:')
-		for i in range(0,4):
-			if (self._atks[i] is not None):
-				self._atks[i].show()
-
 	def setNome(self, nome):
 		self._nome = nome
 
@@ -92,6 +76,9 @@ class Pokemon:
 				struggle = 0	
 		self._struggle = struggle
 	
+	def getAtkList(self):
+		return self._atks
+
 	def getHp(self):
 		return self._hp
 

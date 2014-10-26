@@ -8,14 +8,6 @@ class Ataque:
 		self._pp = -1
 		self._ppAtual = -1 
 
-	def show(self):
-		print('\tNome: {}'.format(self._nome))
-		print('\tTipo: {}'.format(self._typ))
-		print('\tAccuracy: {}'.format(self._acu))
-		print('\tPower: {}'.format(self._pwr))
-		print('\tPP: {}/{}'.format(self._ppAtual,self._pp))
-		print()
-
 	def ppCheck(self):
 		return self._ppAtual > 0
 

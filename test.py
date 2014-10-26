@@ -77,14 +77,6 @@ class TestPokemon(unittest.TestCase):
         r = self.pkmn.getAtk()
         self.assertEqual(r, atk)
 
-    def testAtk(self):
-        atk = random.randint(1,255)
-        self.pkmn.setAtk(atk)
-        self.assertEqual(self.pkmn._atk, atk)
-
-        r = self.pkmn.getAtk()
-        self.assertEqual(r, atk)
-
     def testDefe(self):
         defe = random.randint(1,255)
         self.pkmn.setDefe(defe)
@@ -132,14 +124,6 @@ class TestPokemon(unittest.TestCase):
 
         r = self.pkmn.getHpAtual()
         self.assertEqual(r, hpatual)
-
-    def testDefe(self):
-        defe = random.randint(1,255)
-        self.pkmn.setDefe(defe)
-        self.assertEqual(self.pkmn._defe, defe)
-
-        r = self.pkmn.getDefe()
-        self.assertEqual(r, defe)
 
     def testgetNatks(self):
         n = random.randint(1,4)
@@ -255,6 +239,7 @@ class TestBatalha(unittest.TestCase):
   
     def setUp(self):
         self.batalha = batalha.Batalha()
+        self.batalha.display.toggle()
 
     def testIniciaTurno(self):
         x = random.randint(1,254)

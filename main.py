@@ -1,13 +1,21 @@
 import batalha
+import sys
 
 batalha = batalha.Batalha()
-  
+
+for i in range(0, len(sys.argv)):
+	if (sys.argv[i] == '-s'): batalha.display.toggle()
+	if (sys.argv[i] == '-v'): batalha.display.toggleVerbose()
+
+batalha.display.showPokemon(batalha.pkmn[0])
+batalha.display.showPokemon(batalha.pkmn[1])
+
 while (not batalha.isOver()):
 	i = batalha.EscolheAtaque()
 	batalha.pkmn[batalha.turno].getAtks(i).decreasePp()
 	batalha.CalculaDano(batalha.pkmn[batalha.turno].getAtks(i))
-	print("\n{} (Level {}): {} de hp".format(batalha.pkmn[0].getNome(), batalha.pkmn[0].getLvl(), int(batalha.pkmn[0].getHpAtual())))
-	print("{} (Level {}): {} de hp \n".format(batalha.pkmn[1].getNome(), batalha.pkmn[1].getLvl(), int(batalha.pkmn[1].getHpAtual())))
+	batalha.display.pokemonHP(batalha.pkmn[0])
+	batalha.display.pokemonHP(batalha.pkmn[1], left=False)
 	batalha.AlternaTurno()
 
 if (not batalha.pkmn[0].isAlive() and not batalha.pkmn[1].isAlive()):

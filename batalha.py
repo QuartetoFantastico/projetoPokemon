@@ -1,16 +1,16 @@
 import pokemon
 import random
 import re
+import display
 
 class Batalha:
 
 	def __init__(self):
+			self.display = display.Display()
 			self.pkmn = []
 			self.pkmn.append(pokemon.Pokemon())
-			self.pkmn[0].show()
 			self.pkmn[0].setStruggle()
 			self.pkmn.append(pokemon.Pokemon())
-			self.pkmn[1].show()
 			self.pkmn[1].setStruggle()
 			self.turno = self.IniciaTurno()
 
@@ -35,24 +35,23 @@ class Batalha:
 			return 4
 
 		else:
-			print("{}, escolha o ataque:".format(atacando.getNome()))
+			self.display.escolheAtaque(atacando)
 			while true:			
-				for i in range(0, nAtks):
-					print("{}. {} {}/{}".format(i + 1, atacando.getAtks(i).getNome(), atacando.getAtks(i).getPpAtual(), atacando.getAtks(i).getPp()))
+				self.display.listaAtaques(nAtks, atacando.getAtkList())
 				while (not escolheu):
 					number = input("")
 					p = re.compile('[0-9]')
 					if (p.match(number)):
 						number = int(number)
 						if (number > nAtks or number < 1):
-							print("Ataque inválido! Escolha outro ataque.")
+							self.display.atkInvalido()
 						else: escolheu = 1
 						if (escolheu):
 							if (atacando.getAtks(number - 1).ppCheck()):
 								return number - 1
-							print("PP insuficiente, escolha outro ataque:")
+							self.display.ppInsuficiente()
 							escolheu = 0
-					else: print("Ataque inválido! Escolha outro ataque.")
+					else: self.display.atkInvalido()
 
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
@@ -78,7 +77,7 @@ class Batalha:
 		critical = (atacando.getSpd()/512);
 		temp = random.uniform(0, 1)
 		if (temp <= critical):
-			print("Critical Hit!")
+			self.display.criticalHit()
 			return (2 * atacando.getLvl() + 5)/(atacando.getLvl() + 5)
 		return 1
 
@@ -100,13 +99,13 @@ class Batalha:
 
 		if (self.isHit(atk)):
 			defendendo.setHpAtual(defendendo.getHpAtual() - Damage) 
-			print("{} acerta {} com {}! {} de dano ".format(atacando.getNome(), defendendo.getNome(), atk.getNome(), Damage))
-		else: print("{} não acertou {} com {}!".format(atacando.getNome(), defendendo.getNome(), atk.getNome()))
+			self.display.hit(atacando, defendendo, atk, Damage)
+		else: self.display.miss(atacando, defendendo, atk)
 
 		if (atacando.isStruggling()):
 			Damage = round(Damage / 2, 0)
 			atacando.setHpAtual(atacando.getHpAtual() - Damage)
-			print("{} se machuca! {} de dano ".format(atacando.getNome(), Damage))
+			self.display.hitSelf(atacando, Damage)
 
 	def isHit(self, atk):
 		x = random.uniform(0, 1)
