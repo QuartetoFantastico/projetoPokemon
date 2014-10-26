@@ -11,7 +11,7 @@ class Leitor:
 
 	def leitorDePokemons(self):
 
-		while (self.line is not None and len(self.listaAtributosPokemon) < 10):
+		while (self.line and len(self.listaAtributosPokemon) < 10):
 			atributos = self.line.split()
 			self.listaAtributosPokemon.extend(atributos)
 			self.line = stdin.readline()
