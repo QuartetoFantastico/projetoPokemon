@@ -35,7 +35,7 @@ class Batalha:
 			return 4
 
 		else:
-			print("Escolha o ataque:")
+			print("{}, escolha o ataque:".format(atacando.getNome()))
 			while true:			
 				for i in range(0, nAtks):
 					print("{}. {} {}/{}".format(i + 1, atacando.getAtks(i).getNome(), atacando.getAtks(i).getPpAtual(), atacando.getAtks(i).getPp()))
