@@ -1,5 +1,6 @@
 import pokemon
 import random
+import batalha
 import ataque
 import unittest
 
@@ -261,25 +262,134 @@ class TestAtaque(unittest.TestCase):
 class TestBatalha(unittest.TestCase):
   
     def setUp(self):
-        self.batalha = Batalha()
+        self.batalha = batalha.Batalha()
 
     def testIniciaTurno(self):
         x = random.randint(1,254)
-        self.pkmn[0].setSpd(x)
-        self.pkmn[1].setSpd(x + 1)
+        self.batalha.pkmn[0].setSpd(x)
+        self.batalha.pkmn[1].setSpd(x + 1)
         r = self.batalha.IniciaTurno()
         self.assertEqual(r, 1)
 
-        self.pkmn[1].setSpd(x - 1)
+        self.batalha.pkmn[1].setSpd(x - 1)
         r = self.batalha.IniciaTurno()
         self.assertEqual(r, 0)
 
-        self.pkmn[1].setSpd(x)
+        self.batalha.pkmn[1].setSpd(x)
         r = self.batalha.IniciaTurno()
         self.assertGreaterEqual(r, 0)
         self.assertLessEqual(r, 1)
 
-#Obs: 2 pokemons necessários para testar ^
+    def testAlternaTurno(self):
+        turno = self.batalha.turno
+        self.batalha.AlternaTurno()
+        self.assertNotEqual(turno,self.batalha.turno)
+
+        self.batalha.AlternaTurno()
+        self.assertEqual(turno,self.batalha.turno)
+
+    def testEscolheAtaque(self):
+        r = self.batalha.EscolheAtaque()
+        self.assertEqual(r, 2)
+
+        self.batalha.AlternaTurno()
+        r = self.batalha.EscolheAtaque()
+        self.assertEqual(r, 4)
+
+        self.batalha.AlternaTurno()
+        r = self.batalha.EscolheAtaque()
+        self.assertEqual(r, 0)
+
+    def testTypeChart(self):
+        tabReal = [ [1,   1,   1,   1,   1,  .5,   1,   1,   0,   1,   1,   1,   1,   1,   1,   1,   1],
+                    [2,   1,  .5,  .5,   1,   2,   1,  .5,   0,   1,   1,   1,   1,  .5,   2,   1,   1],
+                    [1,   2,   1,   1,   1,  .5,   1,   2,   1,   1,   1,   2,  .5,   1,   1,   1,   1],
+                    [1,   1,   1,  .5,  .5,  .5,   1,   2,  .5,   1,   1,   2,   1,   1,   1,   1,   1],
+                    [1,   1,   0,   2,   1,   2,   1,  .5,   1,   2,   1,  .5,   2,   1,   1,   1,   1],
+                    [1,  .5,   2,   1,  .5,   1,   1,   2,   1,   2,   1,   1,   1,   1,   2,   1,   1],
+                    [1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1],
+                    [1,  .5,  .5,   2,   1,   1,   1,   1,  .5,  .5,   1,   2,   1,   2,   1,   1,   1],
+                    [0,   1,   1,   1,   1,   1,   1,   1,   2,   1,   1,   1,   1,   0,   1,   1,   1],
+                    [1,   1,   1,   1,   1,  .5,   1,   2,   1,  .5,  .5,   2,   1,   1,   2,  .5,   1],
+                    [1,   1,   1,   1,   2,   2,   1,   1,   1,   2,  .5,  .5,   1,   1,   1,  .5,   1],
+                    [1,   1,  .5,  .5,   2,   2,   1,  .5,   1,  .5,   2,  .5,   1,   1,   1,  .5,   1],
+                    [1,   1,   2,   1,   0,   1,   1,   1,   1,   1,   2,  .5,  .5,   1,   1,  .5,   1],
+                    [1,   2,   1,   2,   1,   1,   1,   1,   1,   1,   1,   1,   1,  .5,   1,   1,   1],
+                    [1,   1,   2,   1,   2,   1,   1,   1,   1,   1,  .5,   2,   1,   1,  .5,   2,   1],
+                    [1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   2,   1],
+                    [1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1]]
+
+        tab = self.batalha.TypeChart('tabela.txt')
+        for i in range (0, 17):
+            for j in range (0, 17):
+                self.assertEqual(tab[i][j], tabReal[i][j])
+
+    def testStabBonus(self):
+        atk = ataque.Ataque()
+        atk._typ = 12
+        r = self.batalha.StabBonus(atk)
+        self.assertEqual(r, 1.5)
+
+        atk._typ = 16
+        r = self.batalha.StabBonus(atk)
+        self.assertEqual(r, 1.5)
+
+        atk._typ = 9
+        r = self.batalha.StabBonus(atk)
+        self.assertEqual(r, 1)
+
+    def testCriticalHit(self):
+        self.batalha.turno = 0
+        cont = 0
+        for i in range (0, 100000):
+            r = self.batalha.CriticalHit()
+            if (r != 1): cont += 1
+        self.assertAlmostEqual(cont / 100000, self.batalha.pkmn[0]._spd / 512, places=2)
+
+    def testIsHit(self):
+        atk = ataque.Ataque()
+        atk._acu = random.randint(70,100)
+        self.batalha.turno = 0
+        cont = 0
+        for i in range (0, 100000):
+            r = self.batalha.isHit(atk)
+            if (r == 1): cont += 1
+        self.assertAlmostEqual(cont / 100000, atk._acu / 100, places=2)
+
+    def testIsOver(self):
+        r = self.batalha.isOver()
+        self.assertEqual(r, False)
+
+        self.batalha.pkmn[0]._hpAtual = 0
+        r = self.batalha.isOver()
+        self.assertEqual(r, True)
+
+        self.batalha.pkmn[1]._hpAtual = 0
+        r = self.batalha.isOver()
+        self.assertEqual(r, True)
+
+        self.batalha.pkmn[1]._hpAtual = 1
+        self.batalha.pkmn[0]._hpAtual = 0
+        r = self.batalha.isOver()
+        self.assertEqual(r, True)
+
+    def testCalculaDano(self):
+        atk = ataque.Ataque()
+        atk._acu = 100
+        self.batalha.turno = 0
+        hpAtacando = self.batalha.pkmn[0]._hpAtual
+        hpDefendendo = self.batalha.pkmn[1]._hpAtual
+        self.batalha.CalculaDano(atk)
+        self.assertLess(self.batalha.pkmn[1]._hpAtual, hpDefendendo)
+        self.assertEqual(self.batalha.pkmn[0]._hpAtual, hpAtacando)
+
+        hpDefendendo = self.batalha.pkmn[1]._hpAtual
+        self.batalha.pkmn[0]._struggle = 1
+        self.batalha.CalculaDano(atk)
+        self.assertLess(self.batalha.pkmn[0]._hpAtual, hpAtacando)
+        self.assertLess(self.batalha.pkmn[1]._hpAtual, hpDefendendo)
+
+#Obs: 18 pokemons e 3 ataques necessários para testar^
 
 if __name__ == '__main__':
     unittest.main()

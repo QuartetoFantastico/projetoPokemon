@@ -65,6 +65,7 @@ class Batalha:
 			tab[i] = [float(j) for j in tab[i]]
 			i+= 1
 			line = arquivo.readline()
+		arquivo.close()
 		return tab
 
 	def StabBonus(self, atk):
@@ -112,5 +113,5 @@ class Batalha:
 		return x <= atk.getAcu() * 0.01
 
 	def isOver(self):
-		return not (self.pkmn[0].isAlive() and self.pkmn[1].isAlive())  
+		return not (self.pkmn[0].isAlive() and self.pkmn[1].isAlive())
 
