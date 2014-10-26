@@ -3,15 +3,7 @@ import random
 import batalha
 import ataque
 import unittest
-
-# class TestLeitorDePokemon(unittest.TestCase):
-
-    # O que testar?
-    #
-    # Se cada coisa está no seu lugar (ou mais ou menos isso).
-    #Se falta alguma informação. Se ele devolve erro para entradas erradas.
-    #
-
+import leitorpkmn
 
 class TestPokemon(unittest.TestCase):
     
@@ -386,10 +378,44 @@ class TestBatalha(unittest.TestCase):
         hpDefendendo = self.batalha.pkmn[1]._hpAtual
         self.batalha.pkmn[0]._struggle = 1
         self.batalha.CalculaDano(atk)
-        self.assertLess(self.batalha.pkmn[0]._hpAtual, hpAtacando)
+        self.assertLessEqual(self.batalha.pkmn[0]._hpAtual, hpAtacando)
         self.assertLess(self.batalha.pkmn[1]._hpAtual, hpDefendendo)
 
-#Obs: 18 pokemons e 3 ataques necessários para testar^
+#Obs: 18 pokemons e 3 escolhas de ataques necessários para testar^
 
+class TestLeitor(unittest.TestCase):
+
+    # O que testar?
+    #
+    # Se cada coisa está no seu lugar (ou mais ou menos isso).
+    #Se falta alguma informação. Se ele devolve erro para entradas erradas.
+    #
+    def setUp(self):
+        self.leitor = leitorpkmn.Leitor()
+
+    def testLeitorPokemonInputOk(self):
+        x = self.leitor.leitorDePokemons()
+        y = ['Pikachu', 100, 274, 229, 174, 306, 50, 12, 16, 4, []]
+        self.assertEqual(x[0], y[0])
+        self.assertEqual(x[1], y[1])
+        self.assertEqual(x[2], y[2])
+        self.assertEqual(x[3], y[3])
+        self.assertEqual(x[4], y[4])
+        self.assertEqual(x[5], y[5])
+        self.assertEqual(x[6], y[6])
+        self.assertEqual(x[7], y[7])
+        self.assertEqual(x[8], y[8])
+        self.assertEqual(x[9], y[9])
+
+    def testLeitorAtaqueInputOk(self):
+        atk = self.leitor.leitorDeAtk()
+        self.assertEqual(atk._nome, 'Rock Smash')
+        self.assertEqual(atk._typ, 1)
+        self.assertEqual(atk._acu, 100)
+        self.assertEqual(atk._pwr, 40)
+        self.assertEqual(atk._pp, 15)
+        self.assertEqual(atk._ppAtual, 15)
+
+#Obs: 1 pokemon necessário para testar ^
 if __name__ == '__main__':
     unittest.main()

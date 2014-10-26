@@ -87,6 +87,7 @@ class Leitor:
 			atributos = [int(i) for i in atributos]
 		except ValueError:
 			print("ERRO: ALGUM ATRIBUTO DO ATAQUE FALTANDO")
+			return None
 
 
 		atk.setTyp(atributos.pop(0))

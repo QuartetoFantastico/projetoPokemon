@@ -563,31 +563,6 @@ Rock Smash
 40
 15
 
-Pikachu 
-100 
-274
-229
-174
-306
-50
-12
-16
-4
-Thunder
-12
-70
-110
-10 
-Electro Ball 
-12
-100
-80
-10 
-Quick Attack 
-0 
-100 
-40
-30
 Rock Smash
 1
 100
@@ -965,3 +940,66 @@ Rock Smash
 100
 40
 15
+
+Pikachu 
+100 
+274
+229
+174
+306
+50
+12
+16
+4
+Thunder
+12
+70
+110
+10 
+Electro Ball 
+12
+100
+80
+10 
+Quick Attack 
+0 
+100 
+40
+30
+Rock Smash
+1
+100
+40
+15
+
+Pikachu 
+100 
+274
+229
+174
+306
+50
+12
+16
+4
+Thunder
+12
+70
+110
+10 
+Electro Ball 
+12
+100
+80
+10 
+Quick Attack 
+0 
+100 
+40
+30
+Rock Smash
+1
+100
+40
+15
+
