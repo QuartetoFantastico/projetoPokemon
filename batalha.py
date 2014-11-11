@@ -5,13 +5,12 @@ import display
 
 class Batalha:
 
-	def __init__(self):
+	def __init__(self, n = 2):
 			self.display = display.Display()
 			self.pkmn = []
-			self.pkmn.append(pokemon.Pokemon())
-			self.pkmn[0].setStruggle()
-			self.pkmn.append(pokemon.Pokemon())
-			self.pkmn[1].setStruggle()
+			for i in range(0,n):
+				self.pkmn.append(pokemon.Pokemon())
+				self.pkmn[i].setStruggle()
 			self.turno = self.IniciaTurno()
 
 	def IniciaTurno(self):
