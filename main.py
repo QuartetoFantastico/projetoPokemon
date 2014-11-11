@@ -15,7 +15,7 @@ while (not batalha.isOver()):
 	batalha.pkmn[batalha.turno].getAtks(i).decreasePp()
 	batalha.CalculaDano(batalha.pkmn[batalha.turno].getAtks(i))
 	batalha.display.pokemonHP(batalha.pkmn[0])
-	batalha.display.pokemonHP(batalha.pkmn[1], left=False)
+	batalha.display.pokemonHP(batalha.pkmn[1])
 	batalha.AlternaTurno()
 
 if (not batalha.pkmn[0].isAlive() and not batalha.pkmn[1].isAlive()):

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<battle_state>
+  <pokemon>
+    <name>Pikachu</name>
+    <level>56</level>
+    <attributes>
+      <health>178</health>
+      <attack>167</attack>
+      <defense>96</defense>
+      <speed>200</speed>
+      <special>167</special>
+    </attributes>
+    <type>12</type>
+    <attacks>
+      <id>1</id>
+      <name>Tackle</name>
+      <type>0</type>
+      <power>40</power>
+      <accuracy>100</accuracy>
+      <power_points>30</power_points>
+    </attacks>
+  </pokemon>
+</battle_state>
