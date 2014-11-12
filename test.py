@@ -405,7 +405,9 @@ class TestLeitor(unittest.TestCase):
 class testServer(unittest.TestCase):
 
      def testLePokemonXML(self):
-        pkmn = server.lePokemonXML('battle_state.xml')
+        serv = server.Server()
+        serv.battle_state = 'battle_state.xml'
+        pkmn = serv.lePokemonXML()
         self.assertEqual(pkmn._nome, 'Pikachu')
         self.assertEqual(pkmn._lvl, 56)
         self.assertEqual(pkmn._hp, 178)

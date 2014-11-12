@@ -5,133 +5,143 @@ import batalha
 import ataque
 import pokemon
 
-app = Flask(__name__)
+class Server:
 
-@app.route('/battle/', methods = ['GET' ,'POST'])
-def iniciaBatalha():
-	if (request.method == 'GET'):
-		return 'Hello World!'
-	else:
-		battle_state = criaBattleState('battle_state.xml')
+	def __init__(self):
+		self.app = Flask(__name__)
+		self.app.debug = True
+		self.battle_state = ''
 
-		root = ET.fromstring(battle_state)
-		hp = root[1].find('name').text
-		print(hp)
-		root[1].find('name').text = 'Raichu'
-		res = ET.tostring(root)
+		@self.app.route('/battle/', methods = ['GET' ,'POST'])
+		def iniciaBatalha():
+			if (request.method == 'GET'):
+				return 'Hello World!'
+			else:
+				self.battle_state = self.criaBatalha('battle_state.xml')
 
-		return res
+				root = ET.fromstring(self.battle_state)
+				hp = root[1].find('name').text
+				print(hp)
+				root[1].find('name').text = 'Raichu'
+				res = ET.tostring(root)
+				return res
 
-def lePokemonXML(battle_state):
+		@self.app.route('/battle/attack/<id>')
+		def hello_world2(id):
+			return 'Hello World! {}'.format(id)
 
-	tree = ET.parse(battle_state)
-	root = tree.getroot()
-	poke = root[0]
-	atrib = []
-	atrib.append(poke.find('name').text)
-	atrib.append(int(poke.find('level').text))
-	atrib.append(int(poke.find('attributes').find('health').text))
-	atrib.append(int(poke.find('attributes').find('attack').text))
-	atrib.append(int(poke.find('attributes').find('defense').text))
-	atrib.append(int(poke.find('attributes').find('speed').text))
-	atrib.append(int(poke.find('attributes').find('special').text))
-	tipos = poke.findall('type')
-	atrib.append(int(tipos[0].text))
-	if (len(tipos) < 2): atrib.append(16)
-	else: atrib.append(int(tipos[1].text))
+	def run(self):
+		self.app.run()
 
-	atks = [None, None, None, None]
-	atqs = poke.findall('attacks')
-	nAtks = len(atqs)
-	for i in range(0, nAtks):
-		atribAtk = []
-		j = int(atqs[0].find('id').text) - 1
-		atribAtk.append(atqs[0].find('name').text)
-		atribAtk.append(int(atqs[0].find('type').text))
-		atribAtk.append(int(atqs[0].find('power').text))
-		atribAtk.append(int(atqs[0].find('accuracy').text))
-		atribAtk.append(int(atqs[0].find('power_points').text))
-		atks[j] = ataque.Ataque(atrib = atribAtk)
+	def lePokemonXML(self):
 
-	struggle = ataque.Ataque(['Struggle', 0, 100, 50, 10])
-	atks.append(struggle)	
+		tree = ET.parse(self.battle_state)
+		root = tree.getroot()
+		poke = root[0]
+		atrib = []
+		atrib.append(poke.find('name').text)
+		atrib.append(int(poke.find('level').text))
+		atrib.append(int(poke.find('attributes').find('health').text))
+		atrib.append(int(poke.find('attributes').find('attack').text))
+		atrib.append(int(poke.find('attributes').find('defense').text))
+		atrib.append(int(poke.find('attributes').find('speed').text))
+		atrib.append(int(poke.find('attributes').find('special').text))
+		tipos = poke.findall('type')
+		atrib.append(int(tipos[0].text))
+		if (len(tipos) < 2): atrib.append(16)
+		else: atrib.append(int(tipos[1].text))
 
-	atrib.append(atks)
-	pkmn = pokemon.Pokemon(atrib = atrib)
-	return pkmn
+		atks = [None, None, None, None]
+		atqs = poke.findall('attacks')
+		nAtks = len(atqs)
+		for i in range(0, nAtks):
+			atribAtk = []
+			j = int(atqs[0].find('id').text) - 1
+			atribAtk.append(atqs[0].find('name').text)
+			atribAtk.append(int(atqs[0].find('type').text))
+			atribAtk.append(int(atqs[0].find('power').text))
+			atribAtk.append(int(atqs[0].find('accuracy').text))
+			atribAtk.append(int(atqs[0].find('power_points').text))
+			atks[j] = ataque.Ataque(atrib = atribAtk)
 
-def criaBattleState(battle_state):
+		struggle = ataque.Ataque(['Struggle', 0, 100, 50, 10])
+		atks.append(struggle)	
 
-	poke = pokemon.Pokemon()
-	tree = ET.parse(battle_state)
-	root = tree.getroot()
+		atrib.append(atks)
+		pkmn = pokemon.Pokemon(atrib = atrib)
+		return pkmn
 
-	#Le o pokemon que já está no xml	
-	poke2 = lePokemonXML(battle_state)
+	def criaBatalha(self):
 
-	#Adiciona o outro pokemon ao xml
-	pkmn = ET.SubElement(root, 'pokemon')
+		pokeServer = pokemon.Pokemon()
+		tree = ET.parse(self.battle_state)
+		root = tree.getroot()
 
-	aux = ET.SubElement(pkmn, 'name')
-	aux.text = poke.getNome()
+		#Le o pokemon que já está no xml	
+		pokeCliente = self.lePokemonXML()
 
-	aux = ET.SubElement(pkmn, 'level')
-	aux.text = str(poke.getLvl())
+		#Adiciona o outro pokemon ao xml
+		pkmn = ET.SubElement(root, 'pokemon')
 
-	attributes = ET.SubElement(pkmn, 'attributes')
-	aux = ET.SubElement(attributes, 'health')
-	aux.text = str(poke.getHp())
-	aux = ET.SubElement(attributes, 'attack')
-	aux.text = str(poke.getAtk())
-	aux = ET.SubElement(attributes, 'defense')
-	aux.text = str(poke.getDefe())
-	aux = ET.SubElement(attributes, 'speed')
-	aux.text = str(poke.getSpd())
-	aux = ET.SubElement(attributes, 'special')
-	aux.text = str(poke.getSpc())
+		aux = ET.SubElement(pkmn, 'name')
+		aux.text = pokeServer.getNome()
 
-	aux = ET.SubElement(pkmn, 'type')
-	aux.text = str(poke.getTyp1())
+		aux = ET.SubElement(pkmn, 'level')
+		aux.text = str(pokeServer.getLvl())
 
-	aux = ET.SubElement(pkmn, 'type')
-	aux.text = str(poke.getTyp2())
+		attributes = ET.SubElement(pkmn, 'attributes')
+		aux = ET.SubElement(attributes, 'health')
+		aux.text = str(pokeServer.getHp())
+		aux = ET.SubElement(attributes, 'attack')
+		aux.text = str(pokeServer.getAtk())
+		aux = ET.SubElement(attributes, 'defense')
+		aux.text = str(pokeServer.getDefe())
+		aux = ET.SubElement(attributes, 'speed')
+		aux.text = str(pokeServer.getSpd())
+		aux = ET.SubElement(attributes, 'special')
+		aux.text = str(pokeServer.getSpc())
 
-	for i in range(0, poke.getNatks()):
-		atk = ET.SubElement(pkmn, 'attacks')
+		aux = ET.SubElement(pkmn, 'type')
+		aux.text = str(pokeServer.getTyp1())
 
-		aux = ET.SubElement(atk, 'id')
-		x = i
-		aux.text = str(x)
+		aux = ET.SubElement(pkmn, 'type')
+		aux.text = str(pokeServer.getTyp2())
 
-		aux = ET.SubElement(atk, 'name')
-		aux.text = poke.getAtks(i).getNome()
+		for i in range(0, pokeServer.getNatks()):
+			atk = ET.SubElement(pkmn, 'attacks')
 
-		aux = ET.SubElement(atk, 'type')
-		aux.text = str(poke.getAtks(i).getTyp())
+			aux = ET.SubElement(atk, 'id')
+			x = i
+			aux.text = str(x)
 
-		aux = ET.SubElement(atk, 'power')
-		aux.text = str(poke.getAtks(i).getPwr())
+			aux = ET.SubElement(atk, 'name')
+			aux.text = pokeServer.getAtks(i).getNome()
 
-		aux = ET.SubElement(atk, 'accuracy')
-		aux.text = str(poke.getAtks(i).getAcu())
+			aux = ET.SubElement(atk, 'type')
+			aux.text = str(pokeServer.getAtks(i).getTyp())
 
-		aux = ET.SubElement(atk, 'power_points')
-		aux.text = str(poke.getAtks(i).getPp())
+			aux = ET.SubElement(atk, 'power')
+			aux.text = str(pokeServer.getAtks(i).getPwr())
 
-	return ET.tostring(root)
+			aux = ET.SubElement(atk, 'accuracy')
+			aux.text = str(pokeServer.getAtks(i).getAcu())
 
-def atualizaBattleState(battle_state):
-	root = ET.fromstring(battle_state)
-	pkmn1 = root[0]
-	pkmn2 = root[1]
+			aux = ET.SubElement(atk, 'power_points')
+			aux.text = str(pokeServer.getAtks(i).getPp())
+ 
+		self.batalha = batalha.Batalha([pokeServer, pokeCliente])
 
-	
+		return ET.tostring(root)
 
+	def atualizaBattleState(self):
+		root = ET.fromstring(self.battle_state)
 
-@app.route('/battle/attack/<id>')
-def hello_world2(id):
-	return 'Hello World! {}'.format(id)
+		for i in range(0, 2):
+			root[i].find('health').text = str(self.battle.pkmn[i].getHpAtual())
+			atks = root[i].findall('attacks')
+			for j in range(0, len(atks)):
+				ind = int(atks[j].find('id').text) - 1
+				atks[j].find('power_points').text = str(self.battle.pkmn[i].atks[ind].getPpAtual())
 
-if __name__ == '__main__':
-	app.debug = True
-	app.run()
+		return ET.tostring(root)
+
