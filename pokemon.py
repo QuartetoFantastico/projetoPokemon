@@ -3,38 +3,43 @@ from sys import stdin
 
 class Pokemon:
 
-	def __init__(self):
-		self._nome = ''
-		self._lvl = -1
-		self._hp = -1
-		self._atk = -1
-		self._defe = -1
-		self._spd = -1
-		self._spc = -1
-		self._typ1 = -1
-		self._typ2 = -1
-		self._atks = []
-		self._hpAtual = -1
+	def __init__(self, atrib = ['', -1, -1, -1, -1, -1, -1, -1, -1, []]):
+		if (len(atrib) < 10):
+			print("Atributos faltando no Pokemon!!")
+			while (len(atrib) < 10):
+				atrib.append(-1)
+
+		self._nome = atrib[0]
+		self._lvl = atrib[1]
+		self._hp = atrib[2]
+		self._atk = atrib[3]
+		self._defe = atrib[4]
+		self._spd = atrib[5]
+		self._spc = atrib[6]
+		self._typ1 = atrib[7]
+		self._typ2 = atrib[8]
+		self._atks = atrib[9]
+		self._hpAtual = atrib[2]
 		self._struggle = 0
 
-
-		leitor = leitorpkmn.Leitor()
-		lista = leitor.leitorDePokemons()
-		if (len(lista) >= 10):
-			self._nome = lista.pop(0)
-			self._lvl = lista.pop(0)
-			self._hp = lista.pop(0)
-			self._atk = lista.pop(0)
-			self._defe = lista.pop(0)
-			self._spd = lista.pop(0)
-			self._spc = lista.pop(0)
-			self._typ1 =lista.pop(0)
-			self._typ2 = lista.pop(0)
-			self._hpAtual = self._hp
-			lista.pop(0)
-			while (len(lista) < 4):
-				lista.append(None)
-			self._atks = lista
+		if (self._lvl == -1):
+			leitor = leitorpkmn.Leitor()
+			lista = leitor.leitorDePokemons()
+			if (len(lista) >= 10):
+				self._nome = lista.pop(0)
+				self._lvl = lista.pop(0)
+				self._hp = lista.pop(0)
+				self._atk = lista.pop(0)
+				self._defe = lista.pop(0)
+				self._spd = lista.pop(0)
+				self._spc = lista.pop(0)
+				self._typ1 =lista.pop(0)
+				self._typ2 = lista.pop(0)
+				self._hpAtual = self._hp
+				lista.pop(0)
+				while (len(lista) < 4):
+					lista.append(None)
+				self._atks = lista
 
 	def isStruggling(self):
 		return self._struggle == 1

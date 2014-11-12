@@ -5,13 +5,23 @@ import display
 
 class Batalha:
 
-	def __init__(self, n = 2):
+	def __init__(self, pokeList = []):
 			self.display = display.Display()
 			self.pkmn = []
-			for i in range(0,n):
-				self.pkmn.append(pokemon.Pokemon())
-				self.pkmn[i].setStruggle()
+			n = len(pokeList)
+			if (n == 0): n = 2
+			for i in range(0, n):
+				if (len(pokeList) == 0): self.addPokemon()
+				else: self.addPokemon(pokeList[i])
 			self.turno = self.IniciaTurno()
+
+	def addPokemon(self, pkmn = None):
+		if (pkmn is None):
+			self.pkmn.append(pokemon.Pokemon())
+		else:
+			self.pkmn.append(pkmn)
+		self.pkmn[-1].setStruggle()
+
 
 	def IniciaTurno(self):
 		if (self.pkmn[0].getSpd() > self.pkmn[1].getSpd()):

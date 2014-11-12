@@ -1,12 +1,17 @@
 class Ataque:
 
-	def __init__(self):
-		self._nome = ''
-		self._typ = -1
-		self._acu = -1
-		self._pwr = -1
-		self._pp = -1
-		self._ppAtual = -1 
+	def __init__(self, atrib = ['', -1, -1, -1, -1]):
+		if (len(atrib) < 5):
+			print("Atributos faltando no Ataque!!")
+			while (len(atrib) < 10):
+				atrib.append(-1)
+
+		self._nome = atrib[0]
+		self._typ = atrib[1]
+		self._acu = atrib[2]
+		self._pwr = atrib[3]
+		self._pp = atrib[4]
+		self._ppAtual = atrib[4] 
 
 	def ppCheck(self):
 		return self._ppAtual > 0
