@@ -4,6 +4,7 @@ import batalha
 import ataque
 import unittest
 import leitorpkmn
+import server
 
 class TestPokemon(unittest.TestCase):
     
@@ -400,6 +401,31 @@ class TestLeitor(unittest.TestCase):
         self.assertEqual(atk._pwr, 40)
         self.assertEqual(atk._pp, 15)
         self.assertEqual(atk._ppAtual, 15)
+
+class testServer(unittest.TestCase):
+
+     def testLePokemonXML(self):
+        pkmn = server.lePokemonXML('battle_state.xml')
+        self.assertEqual(pkmn._nome, 'Pikachu')
+        self.assertEqual(pkmn._lvl, 56)
+        self.assertEqual(pkmn._hp, 178)
+        self.assertEqual(pkmn._hpAtual, 178)
+        self.assertEqual(pkmn._atk, 167)
+        self.assertEqual(pkmn._defe, 96)
+        self.assertEqual(pkmn._spd, 200)
+        self.assertEqual(pkmn._spc, 167)
+        self.assertEqual(pkmn._typ1, 12)
+        self.assertEqual(pkmn._typ2, 16)
+        self.assertEqual(pkmn._atks[0]._nome, 'Tackle')
+        self.assertEqual(pkmn._atks[0]._typ, 0)
+        self.assertEqual(pkmn._atks[0]._pwr, 40)
+        self.assertEqual(pkmn._atks[0]._acu, 100)
+        self.assertEqual(pkmn._atks[0]._pp, 30)
+        self.assertEqual(pkmn._atks[0]._ppAtual, 30)
+        self.assertEqual(pkmn._atks[1], None)
+        self.assertEqual(pkmn._atks[2], None)
+        self.assertEqual(pkmn._atks[3], None)
+        self.assertEqual(pkmn._atks[4]._nome, 'Struggle')
 
 #Obs: 1 pokemon necessário para testar ^
 if __name__ == '__main__':

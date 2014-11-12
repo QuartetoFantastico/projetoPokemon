@@ -1,6 +1,8 @@
 from flask import Flask
 from flask import request
 import xml.etree.ElementTree as ET
+import batalha
+import ataque
 import pokemon
 
 app = Flask(__name__)
@@ -20,14 +22,52 @@ def iniciaBatalha():
 
 		return res
 
+def lePokemonXML(battle_state):
+
+	tree = ET.parse(battle_state)
+	root = tree.getroot()
+	poke = root[0]
+	atrib = []
+	atrib.append(poke.find('name').text)
+	atrib.append(int(poke.find('level').text))
+	atrib.append(int(poke.find('attributes').find('health').text))
+	atrib.append(int(poke.find('attributes').find('attack').text))
+	atrib.append(int(poke.find('attributes').find('defense').text))
+	atrib.append(int(poke.find('attributes').find('speed').text))
+	atrib.append(int(poke.find('attributes').find('special').text))
+	tipos = poke.findall('type')
+	atrib.append(int(tipos[0].text))
+	if (len(tipos) < 2): atrib.append(16)
+	else: atrib.append(int(tipos[1].text))
+
+	atks = [None, None, None, None]
+	atqs = poke.findall('attacks')
+	nAtks = len(atqs)
+	for i in range(0, nAtks):
+		atribAtk = []
+		j = int(atqs[0].find('id').text) - 1
+		atribAtk.append(atqs[0].find('name').text)
+		atribAtk.append(int(atqs[0].find('type').text))
+		atribAtk.append(int(atqs[0].find('power').text))
+		atribAtk.append(int(atqs[0].find('accuracy').text))
+		atribAtk.append(int(atqs[0].find('power_points').text))
+		atks[j] = ataque.Ataque(atrib = atribAtk)
+
+	struggle = ataque.Ataque(['Struggle', 0, 100, 50, 10])
+	atks.append(struggle)	
+
+	atrib.append(atks)
+	pkmn = pokemon.Pokemon(atrib = atrib)
+	return pkmn
+
 def criaBattleState(battle_state):
 
 	poke = pokemon.Pokemon()
 	tree = ET.parse(battle_state)
 	root = tree.getroot()
 
-	#Le o pokemon que já está no xml
-
+	#Le o pokemon que já está no xml	
+	poke2 = lePokemonXML(battle_state)
 
 	#Adiciona o outro pokemon ao xml
 	pkmn = ET.SubElement(root, 'pokemon')

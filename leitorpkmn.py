@@ -41,13 +41,7 @@ class Leitor:
 				return self.listaAtributosPokemon
 			listaAtks.append(atk)
 
-		struggle = ataque.Ataque()
-		struggle.setNome("Struggle")
-		struggle.setTyp(0)
-		struggle.setAcu(100)
-		struggle.setPwr(50)
-		struggle.setPp(10)
-		struggle.setPpAtual(10)
+		struggle = ataque.Ataque(atrib = ['Struggle', 0, 100, 50, 10])
 		listaAtks.append(struggle)
 		self.listaAtributosPokemon.extend(listaAtks)
 

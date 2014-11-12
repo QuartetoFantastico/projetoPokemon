@@ -6,14 +6,14 @@ import display
 class Batalha:
 
 	def __init__(self, pokeList = []):
-			self.display = display.Display()
-			self.pkmn = []
-			n = len(pokeList)
-			if (n == 0): n = 2
-			for i in range(0, n):
-				if (len(pokeList) == 0): self.addPokemon()
-				else: self.addPokemon(pokeList[i])
-			self.turno = self.IniciaTurno()
+		self.display = display.Display()
+		self.pkmn = []
+		n = len(pokeList)
+		if (n == 0): n = 2
+		for i in range(0, n):
+			if (len(pokeList) == 0): self.addPokemon()
+			else: self.addPokemon(pokeList[i])
+		self.turno = self.IniciaTurno()
 
 	def addPokemon(self, pkmn = None):
 		if (pkmn is None):

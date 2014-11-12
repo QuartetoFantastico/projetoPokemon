@@ -8,8 +8,8 @@ class Ataque:
 
 		self._nome = atrib[0]
 		self._typ = atrib[1]
-		self._acu = atrib[2]
-		self._pwr = atrib[3]
+		self._pwr = atrib[2]
+		self._acu = atrib[3]
 		self._pp = atrib[4]
 		self._ppAtual = atrib[4] 
 
