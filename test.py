@@ -408,8 +408,10 @@ class testServer(unittest.TestCase):
 
      def testLePokemonXML(self):
         serv = server.Server()
-        serv.battle_state = 'battle_state.xml'
-        pkmn = serv.lePokemonXML()
+        f = open('battle_state.xml', 'r')
+        serv.battle_state = f.read()
+        f.close()
+        pkmn = pokemon.lePokemonXML(0, serv.battle_state)
         self.assertEqual(pkmn._nome, 'Pikachu')
         self.assertEqual(pkmn._lvl, 56)
         self.assertEqual(pkmn._hp, 178)
@@ -431,12 +433,14 @@ class testServer(unittest.TestCase):
         self.assertEqual(pkmn._atks[3], None)
         self.assertEqual(pkmn._atks[4]._nome, 'Struggle')
 
+
 class testCliente(unittest.TestCase):
     def testWriteXML(self):
+        c = cliente.Cliente()
         atk = ataque.Ataque(['Tackle', 0, 40, 100, 30])
         atk2 = ataque.Ataque(['Quick Attack', 0, 50, 100, 20])
         pkmn = pokemon.Pokemon(["Pikachu", 56, 178, 167, 96, 200, 167, 12, 16, [atk, None, atk2, None]])
-        s = cliente.writeXML(pkmn)
+        s = c.writeXML(pkmn)
         root = ET.fromstring(s)
         poke = root[0]
         poke_att = poke.find('attributes')

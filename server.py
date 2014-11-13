@@ -46,44 +46,6 @@ class Server:
 	def run(self):
 		self.app.run()
 
-	def lePokemonXML(self):
-
-		tree = ET.parse(self.battle_state)
-		root = tree.getroot()
-		poke = root[0]
-		atrib = []
-		atrib.append(poke.find('name').text)
-		atrib.append(int(poke.find('level').text))
-		atrib.append(int(poke.find('attributes').find('health').text))
-		atrib.append(int(poke.find('attributes').find('attack').text))
-		atrib.append(int(poke.find('attributes').find('defense').text))
-		atrib.append(int(poke.find('attributes').find('speed').text))
-		atrib.append(int(poke.find('attributes').find('special').text))
-		tipos = poke.findall('type')
-		atrib.append(int(tipos[0].text))
-		if (len(tipos) < 2): atrib.append(16)
-		else: atrib.append(int(tipos[1].text))
-
-		atks = [None, None, None, None]
-		atqs = poke.findall('attacks')
-		nAtks = len(atqs)
-		for i in range(0, nAtks):
-			atribAtk = []
-			j = int(atqs[0].find('id').text) - 1
-			atribAtk.append(atqs[0].find('name').text)
-			atribAtk.append(int(atqs[0].find('type').text))
-			atribAtk.append(int(atqs[0].find('power').text))
-			atribAtk.append(int(atqs[0].find('accuracy').text))
-			atribAtk.append(int(atqs[0].find('power_points').text))
-			atks[j] = ataque.Ataque(atrib = atribAtk)
-
-		struggle = ataque.Ataque(['Struggle', 0, 100, 50, 10])
-		atks.append(struggle)	
-
-		atrib.append(atks)
-		pkmn = pokemon.Pokemon(atrib = atrib)
-		return pkmn
-
 	def criaBatalha(self):
 
 		pokeServer = pokemon.Pokemon()
@@ -91,7 +53,7 @@ class Server:
 		root = tree.getroot()
 
 		#Le o pokemon que já está no xml	
-		pokeCliente = self.lePokemonXML()
+		pokeCliente = pokemon.lePokemonXML(0, self.battle_state)
 
 		#Adiciona o outro pokemon ao xml
 		pkmn = ET.SubElement(root, 'pokemon')
