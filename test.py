@@ -6,6 +6,7 @@ import unittest
 import leitorpkmn
 import server
 import cliente
+import xml.etree.ElementTree as ET
 
 class TestPokemon(unittest.TestCase):
     
@@ -432,8 +433,36 @@ class testServer(unittest.TestCase):
 
 class testCliente(unittest.TestCase):
     def testWriteXML(self):
-        pkmn = pokemon.Pokemon(["Pikachu", ""])
-        xml = cliente.writeXML(pkmn[])
+        atk = ataque.Ataque(['Tackle', 0, 40, 100, 30])
+        atk2 = ataque.Ataque(['Quick Attack', 0, 50, 100, 20])
+        pkmn = pokemon.Pokemon(["Pikachu", 56, 178, 167, 96, 200, 167, 12, 16, [atk, None, atk2, None]])
+        s = cliente.writeXML(pkmn)
+        root = ET.fromstring(s)
+        poke = root[0]
+        poke_att = poke.find('attributes')
+        tipos = poke.findall('type')
+
+        self.assertEqual(poke.find('name').text, pkmn._nome)
+        self.assertEqual(poke.find('level').text, str(pkmn._lvl))
+        self.assertEqual(poke_att.find('health').text, str(pkmn._hp))
+        self.assertEqual(poke_att.find('attack').text, str(pkmn._atk))
+        self.assertEqual(poke_att.find('defense').text, str(pkmn._defe))
+        self.assertEqual(poke_att.find('speed').text, str(pkmn._spd))
+        self.assertEqual(poke_att.find('special').text, str(pkmn._spc))
+        self.assertTrue((tipos[0].text == str(pkmn._typ1) and tipos[1].text == str(pkmn._typ2)) or 
+                        (tipos[0].text == str(pkmn._typ2) and tipos[1].text == str(pkmn._typ1)))
+        self.assertEqual(len(tipos), 2)
+
+        atks = poke.findall('attacks')
+        self.assertEqual(len(atks), 2)
+
+        for j in range(0, 2):
+            i = int(atks[j].find('id').text) - 1
+            self.assertEqual(atks[j].find('name').text, pkmn._atks[i]._nome)
+            self.assertEqual(atks[j].find('type').text, str(pkmn._atks[i]._typ))
+            self.assertEqual(atks[j].find('power').text, str(pkmn._atks[i]._pwr))
+            self.assertEqual(atks[j].find('accuracy').text, str(pkmn._atks[i]._acu))
+            self.assertEqual(atks[j].find('power_points').text, str(pkmn._atks[i]._pp))
 
 #Obs: 1 pokemon necessário para testar ^
 if __name__ == '__main__':

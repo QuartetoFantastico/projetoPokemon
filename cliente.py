@@ -47,39 +47,39 @@ def writeXML(pkmn):
 
     ET.SubElement(poke, "type")
     ET.SubElement(poke, "type")
-    tipos = ET.findall('type')
+    tipos = poke.findall('type')
     tipos[0].text = str(pkmn.getTyp1())
     tipos[1].text = str(pkmn.getTyp2())
     
-    for i in range(0, pkmn.nAtks()):
+    for i in range(0, 4):
         atk = pkmn.getAtks(i)
         if (atk is not None):
             ET.SubElement(poke, "attacks")
-            poke_atk = poke.find('attacks')
+            poke_atk = poke.findall('attacks')
 
-            ET.SubElement(poke_atk, "id")
-            poke_atk.find('id').text = str(i + 1)
+            ET.SubElement(poke_atk[-1], "id")
+            poke_atk[-1].find('id').text = str(i + 1)
 
-            ET.SubElement(poke_atk, "name")
-            poke_atk.find('name').text = atk.getNome()
+            ET.SubElement(poke_atk[-1], "name")
+            poke_atk[-1].find('name').text = atk.getNome()
             
-            ET.SubElement(poke_atk, "type")
-            poke_atk.find('type').text = str(atk.getTyp())
+            ET.SubElement(poke_atk[-1], "type")
+            poke_atk[-1].find('type').text = str(atk.getTyp())
             
-            ET.SubElement(poke_atk, "power")
-            poke_atk.find('power').text = str(atk.getPwr())
+            ET.SubElement(poke_atk[-1], "power")
+            poke_atk[-1].find('power').text = str(atk.getPwr())
         
-            ET.SubElement(poke_atk, "accuracy")
-            poke_atk.find('accuracy').text = str(atk.getAcu())
+            ET.SubElement(poke_atk[-1], "accuracy")
+            poke_atk[-1].find('accuracy').text = str(atk.getAcu())
 
-            ET.SubElement(poke_atk, "power_points")      
-            poke_atk.find('power_points').text = str(atk.getPp())
+            ET.SubElement(poke_atk[-1], "power_points")      
+            poke_atk[-1].find('power_points').text = str(atk.getPp())
 
 
     s = ET.tostring(root)
-    print(s)
+    return s
 
 
-print(getBattle())
-print(getAttack())
-print(postBattle())
+# print(getBattle())
+# print(getAttack())
+# print(postBattle())
