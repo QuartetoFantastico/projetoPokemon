@@ -19,16 +19,29 @@ class Server:
 			else:
 				self.battle_state = self.criaBatalha('battle_state.xml')
 
-				root = ET.fromstring(self.battle_state)
-				hp = root[1].find('name').text
-				print(hp)
-				root[1].find('name').text = 'Raichu'
-				res = ET.tostring(root)
-				return res
+				if (self.batalha.turno == 0):
+					i = self.batalha.EscolheAtaque()
+					self.batalha.pkmn[1].getAtks(i).decreasePp()
+					self.batalha.CalculaDano(batalha.pkmn[1].getAtks(i))
+					self.battle_state = self.atualizaBattleState()
 
-		@self.app.route('/battle/attack/<id>')
+				return self.battle_state
+
+		@self.app.route('/battle/attack/<id>', methods = ['GET' ,'POST'])
 		def hello_world2(id):
-			return 'Hello World! {}'.format(id)
+			if (request.method == 'GET'):
+				return 'Hello World! {}'.format(id)
+			else:
+				self.batalha.pkmn[1].getAtks(id - 1).decreasePp()
+				self.batalha.CalculaDano(batalha.pkmn[1].getAtks(id - 1))
+				# batalha.display.pokemonHP(batalha.pkmn[0])
+				# batalha.display.pokemonHP(batalha.pkmn[1])
+				self.batalha.AlternaTurno()
+				i = self.batalha.EscolheAtaque()
+				self.batalha.pkmn[1].getAtks(i).decreasePp()
+				self.batalha.CalculaDano(batalha.pkmn[1].getAtks(i))
+				self.battle_state = self.atualizaBattleState()
+				return battle_state
 
 	def run(self):
 		self.app.run()
