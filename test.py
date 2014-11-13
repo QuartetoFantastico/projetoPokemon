@@ -5,6 +5,7 @@ import ataque
 import unittest
 import leitorpkmn
 import server
+import cliente
 
 class TestPokemon(unittest.TestCase):
     
@@ -428,6 +429,11 @@ class testServer(unittest.TestCase):
         self.assertEqual(pkmn._atks[2], None)
         self.assertEqual(pkmn._atks[3], None)
         self.assertEqual(pkmn._atks[4]._nome, 'Struggle')
+
+class testCliente(unittest.TestCase):
+    def testWriteXML(self):
+        pkmn = pokemon.Pokemon(["Pikachu", ""])
+        xml = cliente.writeXML(pkmn[])
 
 #Obs: 1 pokemon necessário para testar ^
 if __name__ == '__main__':

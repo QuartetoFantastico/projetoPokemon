@@ -77,7 +77,7 @@ def writeXML(pkmn):
 
 
     s = ET.tostring(root)
-    print(s)
+    return(s)
 
 
 print(getBattle())
