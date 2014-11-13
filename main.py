@@ -3,11 +3,12 @@ import sys
 import cliente
 import server
 
-if (sys.argv[1] == '-c' || sys.argv[1] == '-C'):
-	c = cliente.Cliente(True)
+if (len(sys.argv) > 1):
+	if (sys.argv[1] == '-c' or sys.argv[1] == '-C'):
+		c = cliente.Cliente(True)
 
-elif (sys.argv[1] == '-s' || sys.argv[1] == '-S'):
-	s = server.Server()
+	elif (sys.argv[1] == '-s' or sys.argv[1] == '-S'):
+		s = server.Server()
 
 else:
 
