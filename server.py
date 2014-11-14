@@ -36,20 +36,29 @@ class Server:
 				self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(int(id) - 1))
 				self.batalha.AlternaTurno()
 
-				self.batalha.display.pokemonHP(self.batalha.pkmn[0])
-				self.batalha.display.pokemonHP(self.batalha.pkmn[1])
+				self.batalha.showStatus()
 
 				if (not self.batalha.isOver()):
 					i = self.batalha.EscolheAtaque()
-					self.batalha.pkmn[1].getAtks(i).decreasePp()
-					self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(i))
+					self.batalha.pkmn[0].getAtks(i).decreasePp()
+					self.batalha.CalculaDano(self.batalha.pkmn[0].getAtks(i))
 					self.batalha.AlternaTurno()
+
+					self.batalha.showStatus()
+
+				if (self.batalha.isOver()):
+					self.batalha.showResults()
 
 				self.battle_state = self.atualizaBattleState()
 				return self.battle_state
 				
 			else:
 				return 'Hello World! {}'.format(id)
+
+		@self.app.route('/shutdown', methods=['POST'])
+		def shutdown():
+			self.shutdown_server()
+			return 'Server shutting down...'
 
 	def run(self):
 		self.app.run()
@@ -109,7 +118,7 @@ class Server:
 			aux.text = str(pokeServer.getAtks(i).getAcu())
 
 			aux = ET.SubElement(atk, 'power_points')
-			aux.text = str(pokeServer.getAtks(i).getPp())
+			aux.text = str(pokeServer.getAtks(i).getPpAtual())
  
 		self.batalha = batalha.Batalha([pokeServer, pokeCliente])
 
@@ -125,8 +134,11 @@ class Server:
 				ind = int(atks[j].find('id').text) - 1
 				atks[j].find('power_points').text = str(self.batalha.pkmn[i].getAtks(ind).getPpAtual())
 
-		self.batalha.display.pokemonHP(self.batalha.pkmn[0])
-		self.batalha.display.pokemonHP(self.batalha.pkmn[1])
-
 		return ET.tostring(root)
+
+	def shutdown_server(self):
+		func = request.environ.get('werkzeug.server.shutdown')
+		if func is None:
+			raise RuntimeError('Not running with the Werkzeug Server')
+		func()
 
