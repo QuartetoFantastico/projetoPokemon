@@ -1,8 +1,0 @@
-import xml.etree.ElementTree as ET
-
-root = ET.fromstring("")
-ET.SubElement(root, "node")
-root.find("node").text = "Texto"
-
-s = ET.tostring(root)
-print(s)
