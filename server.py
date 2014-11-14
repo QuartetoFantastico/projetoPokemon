@@ -23,6 +23,7 @@ class Server:
 					self.batalha.pkmn[0].getAtks(i).decreasePp()
 					self.batalha.CalculaDano(self.batalha.pkmn[0].getAtks(i))
 					self.battle_state = self.atualizaBattleState()
+					self.batalha.AlternaTurno()
 
 				return self.battle_state
 			else:
@@ -38,12 +39,15 @@ class Server:
 				self.batalha.display.pokemonHP(self.batalha.pkmn[0])
 				self.batalha.display.pokemonHP(self.batalha.pkmn[1])
 
-				i = self.batalha.EscolheAtaque()
-				self.batalha.pkmn[1].getAtks(i).decreasePp()
-				self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(i))
+				if (not self.batalha.isOver()):
+					i = self.batalha.EscolheAtaque()
+					self.batalha.pkmn[1].getAtks(i).decreasePp()
+					self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(i))
+					self.batalha.AlternaTurno()
+
 				self.battle_state = self.atualizaBattleState()
-				self.batalha.AlternaTurno()
 				return self.battle_state
+				
 			else:
 				return 'Hello World! {}'.format(id)
 

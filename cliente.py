@@ -9,7 +9,7 @@ class Cliente:
 
 	def __init__(self, execute = False):
 		if (execute):
-			return self.iniciaBatalha()
+			self.iniciaBatalha()
 
 
 	def writeXML(self, pkmn):
@@ -101,7 +101,7 @@ class Cliente:
 			for j in range(0, 4):
 				atk = pkmn.getAtks(j)
 				if (atk is not None):
-					if (atk.getPp() != int(atksXML[k].find('power_points').text)):
+					if (atk.getPpAtual() != int(atksXML[k].find('power_points').text)):
 						atk.decreasePp()
 					k += 1
 

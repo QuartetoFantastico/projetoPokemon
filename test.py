@@ -11,7 +11,11 @@ import xml.etree.ElementTree as ET
 class TestPokemon(unittest.TestCase):
     
     def setUp(self):
-      self.pkmn = pokemon.Pokemon()
+        atk = ataque.Ataque(['Thunder', 12, 70, 110, 10])
+        atk2 = ataque.Ataque(['Electro Ball', 12, 100, 80, 10])
+        atk3 = ataque.Ataque(['Quick Attack', 0, 100, 40, 30])
+        atk4 = ataque.Ataque(['Rock Smash', 1, 100, 40, 15])
+        self.pkmn = pokemon.Pokemon(["Pikachu", 56, 178, 167, 96, 200, 167, 12, 16, [atk, atk2, atk3, atk4]])
 
     def testStruggle(self):
         n = random.randint(1,4)
@@ -151,7 +155,7 @@ class TestPokemon(unittest.TestCase):
 class TestAtaque(unittest.TestCase):
 
     def setUp(self):
-        self.atk = ataque.Ataque()
+        self.atk = ataque.Ataque(['Thunder', 12, 70, 110, 10])
 
     def testPp(self):
         pp = random.randint(1,50)
@@ -241,7 +245,14 @@ class TestAtaque(unittest.TestCase):
 class TestBatalha(unittest.TestCase):
   
     def setUp(self):
-        self.batalha = batalha.Batalha()
+        atk = ataque.Ataque(['Thunder', 12, 70, 110, 10])
+        atk2 = ataque.Ataque(['Electro Ball', 12, 100, 80, 10])
+        atk3 = ataque.Ataque(['Quick Attack', 0, 100, 40, 30])
+        atk4 = ataque.Ataque(['Rock Smash', 1, 100, 40, 15])
+        pkmn1 = pokemon.Pokemon(["Pikachu", 56, 178, 167, 96, 200, 167, 12, 16, [atk, atk2, atk3, atk4]])
+        pkmn2 = pokemon.Pokemon(["Pikachu", 56, 178, 167, 96, 200, 167, 12, 16, [atk, atk2, atk3, atk4]])
+
+        self.batalha = batalha.Batalha([pkmn1, pkmn2])
         self.batalha.display.toggle()
 
     def testIniciaTurno(self):
@@ -274,7 +285,7 @@ class TestBatalha(unittest.TestCase):
 
         self.batalha.AlternaTurno()
         r = self.batalha.EscolheAtaque()
-        self.assertEqual(r, 4)
+        self.assertEqual(r, 3)
 
         self.batalha.AlternaTurno()
         r = self.batalha.EscolheAtaque()
@@ -373,11 +384,6 @@ class TestBatalha(unittest.TestCase):
 
 class TestLeitor(unittest.TestCase):
 
-    # O que testar?
-    #
-    # Se cada coisa está no seu lugar (ou mais ou menos isso).
-    #Se falta alguma informação. Se ele devolve erro para entradas erradas.
-    #
     def setUp(self):
         self.leitor = leitorpkmn.Leitor()
 
