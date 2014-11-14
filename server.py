@@ -125,8 +125,8 @@ class Server:
 				ind = int(atks[j].find('id').text) - 1
 				atks[j].find('power_points').text = str(self.batalha.pkmn[i].getAtks(ind).getPpAtual())
 
-		self.batalha.display.pokemonHP(self.batalha.pkmn[0])
 		self.batalha.display.pokemonHP(self.batalha.pkmn[1])
+		self.batalha.display.pokemonHP(self.batalha.pkmn[0])
 
 		return ET.tostring(root)
 

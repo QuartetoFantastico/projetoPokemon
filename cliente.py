@@ -104,8 +104,6 @@ class Cliente:
 		if (not self.batalha.isOver()):
 			self.batalha.turno = 0
 			id = self.batalha.EscolheAtaque()
-			for i in range(0, 4):
-				print(self.batalha.pkmn[0].getAtks(i).getNome())
 			self.batalha.pkmn[0].getAtks(id).decreasePp()
 			self.battle_state = requests.post('http://127.0.0.1:5000/battle/attack/{}'.format(id + 1)).text
 			self.atualizaBatalha()

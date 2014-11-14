@@ -74,6 +74,7 @@ class Pokemon:
 		self._typ2 = typ2
 	
 	def setHpAtual(self, hp):
+		if (hp < 0): hp = 0
 		self._hpAtual = hp
 
 	def setStruggle(self):
