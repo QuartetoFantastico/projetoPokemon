@@ -36,13 +36,13 @@ class Server:
 				self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(int(id) - 1))
 				self.batalha.AlternaTurno()
 
-				self.batalha.display.pokemonHP(self.batalha.pkmn[0])
 				self.batalha.display.pokemonHP(self.batalha.pkmn[1])
+				self.batalha.display.pokemonHP(self.batalha.pkmn[0])
 
 				if (not self.batalha.isOver()):
 					i = self.batalha.EscolheAtaque()
-					self.batalha.pkmn[1].getAtks(i).decreasePp()
-					self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(i))
+					self.batalha.pkmn[0].getAtks(i).decreasePp()
+					self.batalha.CalculaDano(self.batalha.pkmn[0].getAtks(i))
 					self.batalha.AlternaTurno()
 
 				self.battle_state = self.atualizaBattleState()
@@ -109,7 +109,7 @@ class Server:
 			aux.text = str(pokeServer.getAtks(i).getAcu())
 
 			aux = ET.SubElement(atk, 'power_points')
-			aux.text = str(pokeServer.getAtks(i).getPp())
+			aux.text = str(pokeServer.getAtks(i).getPpAtual())
  
 		self.batalha = batalha.Batalha([pokeServer, pokeCliente])
 

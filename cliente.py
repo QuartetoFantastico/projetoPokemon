@@ -71,7 +71,7 @@ class Cliente:
 				poke_atk[-1].find('accuracy').text = str(atk.getAcu())
 
 				ET.SubElement(poke_atk[-1], "power_points")      
-				poke_atk[-1].find('power_points').text = str(atk.getPp())
+				poke_atk[-1].find('power_points').text = str(atk.getPpAtual())
 
 
 		s = ET.tostring(root)
@@ -87,30 +87,26 @@ class Cliente:
 			return None
 		pkmn2 = pokemon.lePokemonXML(1, self.battle_state)
 		self.batalha = batalha.Batalha([pkmn, pkmn2])
-		self.batalha.turno = 0
 		return self.atualizaBatalha()
 
 	def atualizaBatalha(self):
+		self.batalha.turno = 1
 		root = ET.fromstring(self.battle_state)
 		for i in range(0,2):
 			pkmnXML = root[i]
 			atksXML = root[i].findall('attacks')
 			pkmn = self.batalha.pkmn[i]
-			k = 0 															# k será o índice do atksXML
 			pkmn.setHpAtual(int(pkmnXML.find('attributes').find('health').text))
-			for j in range(0, 4):
-				atk = pkmn.getAtks(j)
-				if (atk is not None):
-					if (atk.getPpAtual() != int(atksXML[k].find('power_points').text)):
-						atk.decreasePp()
-					k += 1
 
-		self.batalha.display.pokemonHP(self.batalha.pkmn[0])
 		self.batalha.display.pokemonHP(self.batalha.pkmn[1])
+		self.batalha.display.pokemonHP(self.batalha.pkmn[0])
 
 		if (not self.batalha.isOver()):
+			self.batalha.turno = 0
 			id = self.batalha.EscolheAtaque()
-
+			for i in range(0, 4):
+				print(self.batalha.pkmn[0].getAtks(i).getNome())
+			self.batalha.pkmn[0].getAtks(id).decreasePp()
 			self.battle_state = requests.post('http://127.0.0.1:5000/battle/attack/{}'.format(id + 1)).text
 			self.atualizaBatalha()
 
