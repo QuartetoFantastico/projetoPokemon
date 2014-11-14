@@ -111,7 +111,7 @@ class Cliente:
 		if (not self.batalha.isOver()):
 			id = self.batalha.EscolheAtaque()
 
-			self.battle_state = requests.post('http://127.0.0.1:5000/battle/attack/{}'.format(id)).text
+			self.battle_state = requests.post('http://127.0.0.1:5000/battle/attack/{}'.format(id + 1)).text
 			self.atualizaBatalha()
 
 		return 'FIM'
