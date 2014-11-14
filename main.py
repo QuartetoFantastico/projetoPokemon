@@ -27,16 +27,9 @@ else:
 		i = batalha.EscolheAtaque()
 		batalha.pkmn[batalha.turno].getAtks(i).decreasePp()
 		batalha.CalculaDano(batalha.pkmn[batalha.turno].getAtks(i))
-		batalha.display.pokemonHP(batalha.pkmn[0])
-		batalha.display.pokemonHP(batalha.pkmn[1])
+		batalha.showStatus()
 		batalha.AlternaTurno()
 
-	if (not batalha.pkmn[0].isAlive() and not batalha.pkmn[1].isAlive()):
-		print("Empate.")
-
-	elif (batalha.pkmn[0].isAlive()):
-		print("{} ganhou!!".format(batalha.pkmn[0].getNome()))
-
-	else: print("{} ganhou!!".format(batalha.pkmn[1].getNome()))
+	batalha.showResults()
 
 	print("Pressione ENTER para sair")
