@@ -130,7 +130,6 @@ class Pokemon:
 		return self._hpAtual
 
 def lePokemonXML(i, battle_state):
-
 	root = ET.fromstring(battle_state)
 	poke = root[i]
 	atrib = []
@@ -151,12 +150,12 @@ def lePokemonXML(i, battle_state):
 	nAtks = len(atqs)
 	for i in range(0, nAtks):
 		atribAtk = []
-		j = int(atqs[0].find('id').text) - 1
-		atribAtk.append(atqs[0].find('name').text)
-		atribAtk.append(int(atqs[0].find('type').text))
-		atribAtk.append(int(atqs[0].find('power').text))
-		atribAtk.append(int(atqs[0].find('accuracy').text))
-		atribAtk.append(int(atqs[0].find('power_points').text))
+		j = int(atqs[i].find('id').text) - 1
+		atribAtk.append(atqs[i].find('name').text)
+		atribAtk.append(int(atqs[i].find('type').text))
+		atribAtk.append(int(atqs[i].find('power').text))
+		atribAtk.append(int(atqs[i].find('accuracy').text))
+		atribAtk.append(int(atqs[i].find('power_points').text))
 		atks[j] = ataque.Ataque(atrib = atribAtk)
 
 	struggle = ataque.Ataque(['Struggle', 0, 100, 50, 10])

@@ -6,14 +6,7 @@ import pokemon
 import ataque
 
 class Cliente:
-	# def getBattle():
-	#     return requests.get('http://127.0.0.1:5000/battle/').content
 
-	# def getAttack():
-	#     return requests.get('http://127.0.0.1:5000/battle/attack/2').content
-
-	# def postBattle():
-	#     return requests.post('http://127.0.0.1:5000/battle/', data='Sei la').content
 	def __init__(self, execute = False):
 		if (execute):
 			return self.iniciaBatalha()
@@ -87,20 +80,24 @@ class Cliente:
 	def iniciaBatalha(self):
 		pkmn = pokemon.Pokemon()
 		xml = self.writeXML(pkmn)
-		self.battle_state = requests.post('http://127.0.0.1:5000/battle/', data = xml).content
-		pkmn2 = pokemon.lePokemonXML(1, battle_state)
+		try:
+			self.battle_state = requests.post('http://127.0.0.1:5000/battle/', data = xml).text
+		except requests.exceptions.ConnectionError:
+			print("Não foi possível conectar ao servidor.")
+			return None
+		pkmn2 = pokemon.lePokemonXML(1, self.battle_state)
 		self.batalha = batalha.Batalha([pkmn, pkmn2])
-		return atualizaBatalha()
+		self.batalha.turno = 0
+		return self.atualizaBatalha()
 
 	def atualizaBatalha(self):
 		root = ET.fromstring(self.battle_state)
-		pkmnXML = root[i]
-		atksXML = root[i].findall('attacks')
-		pkmn = self.batalha.pkmn[i]
-
 		for i in range(0,2):
+			pkmnXML = root[i]
+			atksXML = root[i].findall('attacks')
+			pkmn = self.batalha.pkmn[i]
 			k = 0 															# k será o índice do atksXML
-			pkmn.setHp(int(pkmnXML.find('attributes').find('health').text))
+			pkmn.setHpAtual(int(pkmnXML.find('attributes').find('health').text))
 			for j in range(0, 4):
 				atk = pkmn.getAtks(j)
 				if (atk is not None):
@@ -108,10 +105,13 @@ class Cliente:
 						atk.decreasePp()
 					k += 1
 
+		self.batalha.display.pokemonHP(self.batalha.pkmn[0])
+		self.batalha.display.pokemonHP(self.batalha.pkmn[1])
+
 		if (not self.batalha.isOver()):
 			id = self.batalha.EscolheAtaque()
 
-			self.battle_state = requests.post('http://127.0.0.1:5000/battle/attack/<id>')
+			self.battle_state = requests.post('http://127.0.0.1:5000/battle/attack/{}'.format(id)).text
 			self.atualizaBatalha()
 
 		return 'FIM'

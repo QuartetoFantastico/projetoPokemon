@@ -8,20 +8,10 @@ class Batalha:
 	def __init__(self, pokeList = []):
 		self.display = display.Display()
 		self.pkmn = []
-		n = len(pokeList)
-		if (n == 0): n = 2
-		for i in range(0, n):
-			if (len(pokeList) == 0): self.addPokemon()
-			else: self.addPokemon(pokeList[i])
-		self.turno = self.IniciaTurno()
-
-	def addPokemon(self, pkmn = None):
-		if (pkmn is None):
-			self.pkmn.append(pokemon.Pokemon())
+		if (len(pokeList) == 0): self.pkmn.append(pokemon.Pokemon())
 		else:
-			self.pkmn.append(pkmn)
-		self.pkmn[-1].setStruggle()
-
+			self.pkmn = pokeList
+		self.turno = self.IniciaTurno()
 
 	def IniciaTurno(self):
 		if (self.pkmn[0].getSpd() > self.pkmn[1].getSpd()):
@@ -107,13 +97,13 @@ class Batalha:
 			Damage = round(((2 * atacando.getLvl() + 10)/250 * atacando.getSpc() / defendendo.getSpc() * atk.getPwr() + 2) * Modifier, 0);
 
 		if (self.isHit(atk)):
-			defendendo.setHpAtual(defendendo.getHpAtual() - Damage) 
+			defendendo.setHpAtual(int(defendendo.getHpAtual() - Damage))
 			self.display.hit(atacando, defendendo, atk, Damage)
 		else: self.display.miss(atacando, defendendo, atk)
 
 		if (atacando.isStruggling()):
 			Damage = round(Damage / 2, 0)
-			atacando.setHpAtual(atacando.getHpAtual() - Damage)
+			atacando.setHpAtual(int(atacando.getHpAtual() - Damage))
 			self.display.hitSelf(atacando, Damage)
 
 	def isHit(self, atk):

@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 import batalha
 import ataque
 import pokemon
+import display
 
 class Server:
 
@@ -14,46 +15,48 @@ class Server:
 
 		@self.app.route('/battle/', methods = ['GET' ,'POST'])
 		def iniciaBatalha():
-			if (request.method == 'GET'):
-				return 'Hello World!'
-			else:
-				self.battle_state = self.criaBatalha('battle_state.xml')
+			if (request.method == 'POST'):
+				self.battle_state = self.criaBatalha(request.data)
 
 				if (self.batalha.turno == 0):
 					i = self.batalha.EscolheAtaque()
-					self.batalha.pkmn[1].getAtks(i).decreasePp()
-					self.batalha.CalculaDano(batalha.pkmn[1].getAtks(i))
+					self.batalha.pkmn[0].getAtks(i).decreasePp()
+					self.batalha.CalculaDano(self.batalha.pkmn[0].getAtks(i))
 					self.battle_state = self.atualizaBattleState()
 
 				return self.battle_state
+			else:
+				return 'Hello World!'
 
 		@self.app.route('/battle/attack/<id>', methods = ['GET' ,'POST'])
-		def hello_world2(id):
-			if (request.method == 'GET'):
-				return 'Hello World! {}'.format(id)
-			else:
-				self.batalha.pkmn[1].getAtks(id - 1).decreasePp()
-				self.batalha.CalculaDano(batalha.pkmn[1].getAtks(id - 1))
-				# batalha.display.pokemonHP(batalha.pkmn[0])
-				# batalha.display.pokemonHP(batalha.pkmn[1])
+		def recebeAtaque(id):
+			if (request.method == 'POST'):
+				self.batalha.pkmn[1].getAtks(int(id) - 1).decreasePp()
+				self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(int(id) - 1))
 				self.batalha.AlternaTurno()
+
+				self.batalha.display.pokemonHP(self.batalha.pkmn[0])
+				self.batalha.display.pokemonHP(self.batalha.pkmn[1])
+
 				i = self.batalha.EscolheAtaque()
 				self.batalha.pkmn[1].getAtks(i).decreasePp()
-				self.batalha.CalculaDano(batalha.pkmn[1].getAtks(i))
+				self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(i))
 				self.battle_state = self.atualizaBattleState()
-				return battle_state
+				self.batalha.AlternaTurno()
+				return self.battle_state
+			else:
+				return 'Hello World! {}'.format(id)
 
 	def run(self):
 		self.app.run()
 
-	def criaBatalha(self):
+	def criaBatalha(self, battle_state):
 
 		pokeServer = pokemon.Pokemon()
-		tree = ET.parse(self.battle_state)
-		root = tree.getroot()
+		root = ET.fromstring(battle_state)
 
 		#Le o pokemon que já está no xml	
-		pokeCliente = pokemon.lePokemonXML(0, self.battle_state)
+		pokeCliente = pokemon.lePokemonXML(0, battle_state)
 
 		#Adiciona o outro pokemon ao xml
 		pkmn = ET.SubElement(root, 'pokemon')
@@ -112,11 +115,14 @@ class Server:
 		root = ET.fromstring(self.battle_state)
 
 		for i in range(0, 2):
-			root[i].find('health').text = str(self.battle.pkmn[i].getHpAtual())
+			root[i].find('attributes').find('health').text = str(self.batalha.pkmn[i].getHpAtual())
 			atks = root[i].findall('attacks')
 			for j in range(0, len(atks)):
 				ind = int(atks[j].find('id').text) - 1
-				atks[j].find('power_points').text = str(self.battle.pkmn[i].atks[ind].getPpAtual())
+				atks[j].find('power_points').text = str(self.batalha.pkmn[i].getAtks(ind).getPpAtual())
+
+		self.batalha.display.pokemonHP(self.batalha.pkmn[0])
+		self.batalha.display.pokemonHP(self.batalha.pkmn[1])
 
 		return ET.tostring(root)
 

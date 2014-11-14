@@ -9,6 +9,7 @@ if (len(sys.argv) > 1):
 
 	elif (sys.argv[1] == '-s' or sys.argv[1] == '-S'):
 		s = server.Server()
+		s.run()
 
 else:
 

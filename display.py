@@ -67,6 +67,7 @@ class Display:
 			for i in range(0,4):
 				if (pkmn.getAtks(i) is not None):
 					self.showAtk(pkmn.getAtks(i))
+				else: print('None')
 
 	def showAtk(self, atk):
 		if (self.verbose):
