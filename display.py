@@ -77,3 +77,12 @@ class Display:
 			print('\tPower: {}'.format(atk.getPwr()))
 			print('\tPP: {}/{}'.format(atk.getPpAtual(),atk.getPp()))
 			print()
+
+	def showTie(self):
+		if (self.display):
+			print("Empatou!")
+
+	def showWinner(self, pkmn):
+		if (self.display):
+			print("{} ganhou!".format(pkmn.getNome()))
+

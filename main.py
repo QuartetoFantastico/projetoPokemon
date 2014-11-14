@@ -6,6 +6,7 @@ import server
 if (len(sys.argv) > 1):
 	if (sys.argv[1] == '-c' or sys.argv[1] == '-C'):
 		c = cliente.Cliente(True)
+		c.sendShutdownSignal()
 
 	elif (sys.argv[1] == '-s' or sys.argv[1] == '-S'):
 		s = server.Server()

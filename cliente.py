@@ -98,8 +98,7 @@ class Cliente:
 			pkmn = self.batalha.pkmn[i]
 			pkmn.setHpAtual(int(pkmnXML.find('attributes').find('health').text))
 
-		self.batalha.display.pokemonHP(self.batalha.pkmn[1])
-		self.batalha.display.pokemonHP(self.batalha.pkmn[0])
+		self.batalha.showStatus()
 
 		if (not self.batalha.isOver()):
 			self.batalha.turno = 0
@@ -108,6 +107,11 @@ class Cliente:
 			self.battle_state = requests.post('http://127.0.0.1:5000/battle/attack/{}'.format(id + 1)).text
 			self.atualizaBatalha()
 
+		else: 
+			self.batalha.showResults()
+
 		return 'FIM'
 
+	def sendShutdownSignal(self):
+		requests.post('http://127.0.0.1:5000/shutdown')
 

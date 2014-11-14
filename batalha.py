@@ -113,3 +113,15 @@ class Batalha:
 	def isOver(self):
 		return not (self.pkmn[0].isAlive() and self.pkmn[1].isAlive())
 
+	def showResults(self):
+		if (not self.pkmn[0].isAlive() and not self.pkmn[1].isAlive()):
+			self.display.showTie()
+
+		elif (self.pkmn[0].isAlive()):
+			self.display.showWinner(self.pkmn[0])
+
+		else: self.display.showWinner(self.pkmn[1])
+
+	def showStatus(self):
+		self.display.pokemonHP(self.pkmn[1])
+		self.display.pokemonHP(self.pkmn[0])
