@@ -102,7 +102,7 @@ class Server:
 			atk = ET.SubElement(pkmn, 'attacks')
 
 			aux = ET.SubElement(atk, 'id')
-			x = i
+			x = i + 1
 			aux.text = str(x)
 
 			aux = ET.SubElement(atk, 'name')
@@ -128,11 +128,11 @@ class Server:
 		root = ET.fromstring(self.battle_state)
 
 		for i in range(0, 2):
-			root[i].find('attributes').find('health').text = str(self.batalha.pkmn[i].getHpAtual())
+			root[i].find('attributes').find('health').text = str(self.batalha.pkmn[(i + 1) % 2].getHpAtual())
 			atks = root[i].findall('attacks')
 			for j in range(0, len(atks)):
 				ind = int(atks[j].find('id').text) - 1
-				atks[j].find('power_points').text = str(self.batalha.pkmn[i].getAtks(ind).getPpAtual())
+				atks[j].find('power_points').text = str(self.batalha.pkmn[(i + 1) % 2].getAtks(ind).getPpAtual())
 
 		return ET.tostring(root)
 

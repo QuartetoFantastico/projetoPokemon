@@ -33,13 +33,13 @@ class Display:
 		if (self.display): print("Critical Hit!")
 
 	def hit(self, atacando, defendendo, atk, Damage):
-		if (self.display): print("{} acerta {} com {}! {} de dano ".format(atacando.getNome(), defendendo.getNome(), atk.getNome(), Damage))
+		if (self.display): print("{} acerta {} com {}! {} de dano ".format(atacando.getNome(), defendendo.getNome(), atk.getNome(), int(Damage)))
 
 	def miss(self, atacando, defendendo, atk):
 		if (self.display): print("{} não acertou {} com {}!".format(atacando.getNome(), defendendo.getNome(), atk.getNome()))
 
 	def hitSelf(self, atacando, Damage):
-		if (self.display): print("{} se machuca! {} de dano ".format(atacando.getNome(), Damage))
+		if (self.display): print("{} se machuca! {} de dano ".format(atacando.getNome(), int(Damage)))
 
 	def pokemonHP(self, pkmn, left=True):
 		if (self.display): 
