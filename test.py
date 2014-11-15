@@ -412,7 +412,54 @@ class TestLeitor(unittest.TestCase):
 
 class testServer(unittest.TestCase):
 
-     def testLePokemonXML(self):
+    # def testCriaBatalha(self):
+    #     serv = server.Server()
+    #     f = open('battle_state.xml', 'r')
+    #     serv.battle_state = f.read()
+    #     f.close()
+    #     atk = ataque.Ataque(['Thunder', 12, 70, 110, 10])
+    #     atk2 = ataque.Ataque(['Electro Ball', 12, 100, 80, 10])
+    #     atk3 = ataque.Ataque(['Quick Attack', 0, 100, 40, 30])
+    #     atk4 = ataque.Ataque(['Rock Smash', 1, 100, 40, 15])
+    #     pkmn = ["Pikachu", 56, 178, 167, 96, 200, 167, 12, 16, [atk, None, None, None]]
+    #     pkmn2 = ["Raichu", 57, 179, 168, 97, 201, 168, 12, 16, [atk, atk2, atk3, atk4]]
+    #     serv.battle_state = serv.criaBatalha(serv.battle_state, pkmn2)
+
+    #     #Verifica batalha
+    #     pkmn = [pokemon.Pokemon(pkmn), pokemon.Pokemon(pkmn2)]
+    #     self.assertTrue(pokemon.Equals(pkmn[0], serv.batalha.pkmn[0]))
+    #     self.assertTrue(pokemon.Equals(pkmn[1], serv.batalha.pkmn[1]))
+
+    #     #Verifica battle_state
+    #     root = ET.fromstring(serv.battle_state)
+    #     for i in range(0, 2):
+    #         poke = root[i]
+    #         poke_att = poke.find('attributes')
+    #         tipos = poke.findall('type')
+
+    #         self.assertEqual(poke.find('name').text, pkmn[i]._nome)
+    #         self.assertEqual(poke.find('level').text, str(pkmn[i]._lvl))
+    #         self.assertEqual(poke_att.find('health').text, str(pkmn[i]._hp))
+    #         self.assertEqual(poke_att.find('attack').text, str(pkmn[i]._atk))
+    #         self.assertEqual(poke_att.find('defense').text, str(pkmn[i]._defe))
+    #         self.assertEqual(poke_att.find('speed').text, str(pkmn[i]._spd))
+    #         self.assertEqual(poke_att.find('special').text, str(pkmn[i]._spc))
+    #         self.assertTrue((tipos[0].text == str(pkmn[i]._typ1) and tipos[1].text == str(pkmn[i]._typ2)) or 
+    #                         (tipos[0].text == str(pkmn[i]._typ2) and tipos[1].text == str(pkmn[i]._typ1)))
+    #         self.assertEqual(len(tipos), 2)
+
+    #         atks = poke.findall('attacks')
+    #         self.assertEqual(len(atks), 2)
+
+    #         for j in range(0, 2):
+    #             k = int(atks[j].find('id').text) - 1
+    #             self.assertEqual(atks[j].find('name').text, pkmn[i]._atks[k]._nome)
+    #             self.assertEqual(atks[j].find('type').text, str(pkmn[i]._atks[k]._typ))
+    #             self.assertEqual(atks[j].find('power').text, str(pkmn[i]._atks[k]._pwr))
+    #             self.assertEqual(atks[j].find('accuracy').text, str(pkmn[i]._atks[k]._acu))
+    #             self.assertEqual(atks[j].find('power_points').text, str(pkmn[i]._atks[k]._pp))
+
+    def testLePokemonXML(self):
         serv = server.Server()
         f = open('battle_state.xml', 'r')
         serv.battle_state = f.read()
@@ -428,17 +475,16 @@ class testServer(unittest.TestCase):
         self.assertEqual(pkmn._spc, 167)
         self.assertEqual(pkmn._typ1, 12)
         self.assertEqual(pkmn._typ2, 16)
-        self.assertEqual(pkmn._atks[0]._nome, 'Tackle')
-        self.assertEqual(pkmn._atks[0]._typ, 0)
-        self.assertEqual(pkmn._atks[0]._pwr, 40)
-        self.assertEqual(pkmn._atks[0]._acu, 100)
-        self.assertEqual(pkmn._atks[0]._pp, 30)
-        self.assertEqual(pkmn._atks[0]._ppAtual, 30)
+        self.assertEqual(pkmn._atks[0]._nome, 'Thunder')
+        self.assertEqual(pkmn._atks[0]._typ, 12)
+        self.assertEqual(pkmn._atks[0]._pwr, 110)
+        self.assertEqual(pkmn._atks[0]._acu, 70)
+        self.assertEqual(pkmn._atks[0]._pp, 10)
+        self.assertEqual(pkmn._atks[0]._ppAtual, 10)
         self.assertEqual(pkmn._atks[1], None)
         self.assertEqual(pkmn._atks[2], None)
         self.assertEqual(pkmn._atks[3], None)
         self.assertEqual(pkmn._atks[4]._nome, 'Struggle')
-
 
 class testCliente(unittest.TestCase):
     def testWriteXML(self):

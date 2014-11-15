@@ -13,11 +13,11 @@
     <type>12</type>
     <attacks>
       <id>1</id>
-      <name>Tackle</name>
-      <type>0</type>
-      <power>40</power>
-      <accuracy>100</accuracy>
-      <power_points>30</power_points>
+      <name>Thunder</name>
+      <type>12</type>
+      <power>110</power>
+      <accuracy>70</accuracy>
+      <power_points>10</power_points>
     </attacks>
   </pokemon>
 </battle_state>

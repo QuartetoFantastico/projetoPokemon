@@ -10,7 +10,7 @@ class Server:
 
 	def __init__(self):
 		self.app = Flask(__name__)
-		self.app.debug = True
+		# self.app.debug = True
 		self.battle_state = ''
 
 		@self.app.route('/battle/', methods = ['GET' ,'POST'])
@@ -63,9 +63,9 @@ class Server:
 	def run(self):
 		self.app.run()
 
-	def criaBatalha(self, battle_state):
-
-		pokeServer = pokemon.Pokemon()
+	def criaBatalha(self, battle_state, atribs = []):
+		
+		pokeServer = pokemon.Pokemon(atribs)
 		root = ET.fromstring(battle_state)
 
 		#Le o pokemon que já está no xml	

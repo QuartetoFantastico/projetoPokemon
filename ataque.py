@@ -58,3 +58,16 @@ class Ataque:
 
 	def isSpecial(self):
 		return (self._typ >= 9 and self._typ != 16)
+
+def Equals(atk1, atk2):
+
+	if (atk1 is None and atk2 is None): return True
+	if (atk1 is None or atk2 is None): return False
+
+	return (atk1.getNome() == atk2.getNome() and
+			atk1.getPwr() == atk2.getPwr() and
+			atk1.getAtk() == atk2.getAtk() and
+			atk1.getPp() == atk2.getPp() and
+			atk1.getAcu() == atk2.getAcu() and
+			atk1.getTyp() == atk2.getTyp())
+
