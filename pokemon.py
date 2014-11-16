@@ -181,8 +181,8 @@ def Equals(pkmn1, pkmn2):
 			pkmn1.getSpd() == pkmn2.getSpd() and
 			pkmn1.getSpc() == pkmn2.getSpc() and
 			pkmn1.getTyp1() == pkmn2.getTyp1() and
-			pkmn1.getTyp2() == pkmn2.getTyp2())
-			# ataque.ataqueEquals(atks1[0], atks2[0]) and
-			# ataque.ataqueEquals(atks1[1], atks2[1]) and
-			# ataque.ataqueEquals(atks1[2], atks2[2]) and
-			# ataque.ataqueEquals(atks1[3], atks2[3]))
+			pkmn1.getTyp2() == pkmn2.getTyp2() and
+			ataque.Equals(atks1[0], atks2[0]) and
+			ataque.Equals(atks1[1], atks2[1]) and
+			ataque.Equals(atks1[2], atks2[2]) and
+			ataque.Equals(atks1[3], atks2[3]))

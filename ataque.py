@@ -66,7 +66,6 @@ def Equals(atk1, atk2):
 
 	return (atk1.getNome() == atk2.getNome() and
 			atk1.getPwr() == atk2.getPwr() and
-			atk1.getAtk() == atk2.getAtk() and
 			atk1.getPp() == atk2.getPp() and
 			atk1.getAcu() == atk2.getAcu() and
 			atk1.getTyp() == atk2.getTyp())
