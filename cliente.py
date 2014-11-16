@@ -7,7 +7,9 @@ import ataque
 
 class Cliente:
 
-	def __init__(self, execute = False):
+	def __init__(self, execute = False, ip = '127.0.0.1', port = 5000):
+		self.ip = ip
+		self.port = port
 		if (execute):
 			self.iniciaBatalha()
 
@@ -81,13 +83,12 @@ class Cliente:
 		pkmn = pokemon.Pokemon()
 		xml = self.writeXML(pkmn)
 		try:
-			self.battle_state = requests.post('http://127.0.0.1:5000/battle/', data = xml).text
+			self.battle_state = requests.post('http://{}:{}/battle/'.format(self.ip, self.port), data = xml).text
 		except requests.exceptions.ConnectionError:
 			print("Não foi possível conectar ao servidor.")
 			return None
 		pkmn2 = pokemon.lePokemonXML(1, self.battle_state)
 		self.batalha = batalha.Batalha([pkmn, pkmn2])
-		print(self.battle_state)
 		return self.atualizaBatalha()
 
 	def atualizaBatalha(self):
@@ -105,7 +106,7 @@ class Cliente:
 			self.batalha.turno = 0
 			id = self.batalha.EscolheAtaque()
 			self.batalha.pkmn[0].getAtks(id).decreasePp()
-			self.battle_state = requests.post('http://127.0.0.1:5000/battle/attack/{}'.format(id + 1)).text
+			self.battle_state = requests.post('http://{}:{}/battle/attack/{}'.format(self.ip, self.port, id + 1)).text
 			self.simulaAtaque(id)
 			self.atualizaBatalha()
 
@@ -115,7 +116,7 @@ class Cliente:
 		return 'FIM'
 
 	def sendShutdownSignal(self):
-		requests.post('http://127.0.0.1:5000/shutdown')
+		requests.post('http://{}:{}/shutdown'.format(self.ip, self.port))
 
 	def simulaAtaque(self, idCliente):
 		disp = self.batalha.display

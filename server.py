@@ -60,8 +60,8 @@ class Server:
 			self.shutdown_server()
 			return 'Server shutting down...'
 
-	def run(self):
-		self.app.run()
+	def run(self, ip = '127.0.0.1', port = 5000):
+		self.app.run(ip, port)
 
 	def criaBatalha(self, battle_state, atribs = []):
 		
