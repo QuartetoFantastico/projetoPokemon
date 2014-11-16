@@ -169,48 +169,6 @@ def lePokemonXML(i, battle_state):
 
 def Equals(pkmn1, pkmn2):
 
-	print('Nome: {}'.format(pkmn1.getNome()))
-	print('Level: {}'.format(pkmn1.getLvl()))
-	print('HP: {}'.format(pkmn1.getHp()))
-	print('Ataque: {}'.format(pkmn1.getAtk()))
-	print('Defesa: {}'.format(pkmn1.getDefe()))
-	print('Speed: {}'.format(pkmn1.getSpd()))
-	print('Tipos: {} e {}'.format(pkmn1.getTyp1(), pkmn1.getTyp2()))
-	print('Num Ataques: {}'.format(pkmn1.getNatks()))
-	print()
-	print('Moves:')
-	for i in range(0,4):
-		atk = pkmn1.getAtks(i)
-		if (atk is not None):
-			print('\tNome: {}'.format(atk.getNome()))
-			print('\tTipo: {}'.format(atk.getTyp()))
-			print('\tAccuracy: {}'.format(atk.getAcu()))
-			print('\tPower: {}'.format(atk.getPwr()))
-			print('\tPP: {}/{}'.format(atk.getPpAtual(),atk.getPp()))
-			print()
-		else: print('None')
-
-	print('Nome: {}'.format(pkmn2.getNome()))
-	print('Level: {}'.format(pkmn2.getLvl()))
-	print('HP: {}'.format(pkmn2.getHp()))
-	print('Ataque: {}'.format(pkmn2.getAtk()))
-	print('Defesa: {}'.format(pkmn2.getDefe()))
-	print('Speed: {}'.format(pkmn2.getSpd()))
-	print('Tipos: {} e {}'.format(pkmn2.getTyp1(), pkmn2.getTyp2()))
-	print('Num Ataques: {}'.format(pkmn2.getNatks()))
-	print()
-	print('Moves:')
-	for i in range(0,4):
-		atk = pkmn2.getAtks(i)
-		if (atk is not None):
-			print('\tNome: {}'.format(atk.getNome()))
-			print('\tTipo: {}'.format(atk.getTyp()))
-			print('\tAccuracy: {}'.format(atk.getAcu()))
-			print('\tPower: {}'.format(atk.getPwr()))
-			print('\tPP: {}/{}'.format(atk.getPpAtual(),atk.getPp()))
-			print()
-		else: print('None')
-
 	if (pkmn1 is None and pkmn2 is None): return True
 	if (pkmn1 is None or pkmn2 is None): return False
 	atks1 = pkmn1.getAtkList()
