@@ -52,6 +52,27 @@ class Batalha:
 							escolheu = 0
 					else: self.display.atkInvalido()
 
+	def EscolheAtaqueInteligente(self):
+		#Para maximizar o dano, deve-se maximizar a Base X Tipo
+		true = 1
+		TypeMaior = 1
+		atacando = self.pkmn[self.turno]
+		nAtks = atacando.getNatks()	
+		escolheu = BaseXType = 0		
+		lista = atacando.getAtkList()
+		
+		if (atacando.isStruggling()):
+			return 4
+
+		else:
+			for i in range(0, len(lista)):
+				Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
+				if (lista[i].getPwr * Type > lista[BaseXType].getPwr * TypeMaior):
+					BaseXType = i
+					TypeMaior = Type
+
+		return BaseXType		
+
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
 		tab = []

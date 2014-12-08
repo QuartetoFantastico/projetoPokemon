@@ -15,16 +15,21 @@ if (len(sys.argv) > 1):
 else:
 
 	batalha = batalha.Batalha()
+	smart = 0
 
 	for i in range(0, len(sys.argv)):
 		if (sys.argv[i] == '-s'): batalha.display.toggle()
 		if (sys.argv[i] == '-v'): batalha.display.toggleVerbose()
+		if (sys.argv[i] == '-i'): smart = 1
 
 	batalha.display.showPokemon(batalha.pkmn[0])
 	batalha.display.showPokemon(batalha.pkmn[1])
 
 	while (not batalha.isOver()):
-		i = batalha.EscolheAtaque()
+		if (smart):
+			i = batalha.EscolheAtaqueInteligente()
+		else:
+			i = batalha.EscolheAtaque()
 		batalha.pkmn[batalha.turno].getAtks(i).decreasePp()
 		batalha.CalculaDano(batalha.pkmn[batalha.turno].getAtks(i))
 		batalha.showStatus()
