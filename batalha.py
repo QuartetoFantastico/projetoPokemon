@@ -21,8 +21,8 @@ class Batalha:
 		return random.randint(0, 1)	
 
 	def AlternaTurno(self):
-		self.turno = (self.turno + 1) % 2
 		self.pkmn[self.turno].setStruggle()
+		self.turno = (self.turno + 1) % 2
 
 	def EscolheAtaque(self):
 		true = 1
