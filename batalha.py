@@ -72,7 +72,7 @@ class Batalha:
 		TypeMaior = 1
 		atacando = self.pkmn[self.turno]
 		defendendo = self.pkmn[(self.turno + 1) % 2]
-		BaseXType = 0		
+		BaseXType = 0
 		lista = atacando.getAtkList()
 		tab = self.TypeChart('tabela.txt')
 
@@ -80,11 +80,19 @@ class Batalha:
 			return 4
 
 		else:
-			for i in range(0, len(lista)):
-				Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
-				if (lista[i].getPwr() * Type > lista[BaseXType].getPwr() * TypeMaior):
-					BaseXType = i
-					TypeMaior = Type
+			if (atacando.getHpAtual() < 100):
+				precisao = atacando.getAcu() / 100
+				for i in range(0, len(lista)):
+					Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
+					if (lista[i].getPwr() * Type * precisao > lista[BaseXType].getPwr() * TypeMaior * precisao):
+						BaseXType = i
+						TypeMaior = Type
+			else:	
+				for i in range(0, len(lista)):
+					Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
+					if (lista[i].getPwr() * Type > lista[BaseXType].getPwr() * TypeMaior):
+						BaseXType = i
+						TypeMaior = Type
 
 		return BaseXType
 			
