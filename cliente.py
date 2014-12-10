@@ -106,6 +106,9 @@ class Cliente:
 			self.batalha.turno = 0
 			id = self.batalha.EscolheAtaque()
 			self.batalha.pkmn[0].getAtks(id).decreasePp()
+			self.batalha.pkmn[0].setStruggle()
+			if id == 4: 
+				id = -1
 			self.battle_state = requests.post('http://{}:{}/battle/attack/{}'.format(self.ip, self.port, id + 1)).text
 			self.simulaAtaque(id)
 			self.atualizaBatalha()

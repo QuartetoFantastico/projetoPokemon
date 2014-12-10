@@ -32,7 +32,7 @@ class Leitor:
 			print("ERRO: ALGUM ATRIBUTO DO POKEMON FALTANDO")
 		self.listaAtributosPokemon.insert(0, nome)
 
-
+		numatks = 0
 		listaAtks = []
 		for i in range (0, self.listaAtributosPokemon[9]):
 			atk = self.leitorDeAtk()
@@ -40,8 +40,11 @@ class Leitor:
 				self.listaAtributosPokemon.extend(listaAtks)
 				return self.listaAtributosPokemon
 			listaAtks.append(atk)
+			numatks += 1
 
 		struggle = ataque.Ataque(atrib = ['Struggle', 0, 100, 50, 10])
+		for i in range(numatks, 4):
+			listaAtks.append(None) 
 		listaAtks.append(struggle)
 		self.listaAtributosPokemon.extend(listaAtks)
 
