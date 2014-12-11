@@ -48,7 +48,6 @@ class Pokemon:
 
 	def isStruggling(self):
 		if (self._struggle == True):
-			print("{} is struggling!".format(self._nome))
 			return True
 		return False
 
@@ -85,11 +84,12 @@ class Pokemon:
 
 	def setStruggle(self):
 		struggle = True
-		for i in range(0, self.getNatks()):
-			if (self.getAtks(i).ppCheck()):
-				struggle = False	
+		for i in range(0, 4):
+			if (self.getAtks(i) is not None):
+				x = self.getAtks(i).ppCheck()
+				if (x):
+					struggle = False
 		self._struggle = struggle
-		print("{} is struggling: {}".format(self._nome, struggle))
 	
 	def getAtkList(self):
 		return self._atks

@@ -2,7 +2,7 @@ class Display:
 
 	def __init__(self):
 		self.display = True
-		self.verbose = False
+		self.verbose = True
 
 	def toggle(self):
 		if (self.display): self.display = False

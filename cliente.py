@@ -94,6 +94,8 @@ class Cliente:
 			self.batalha.pkmn[0].npc = True
 			print("Eu sou um NPC")
 		self.batalha.turno = 0
+		self.batalha.display.showPokemon(self.batalha.pkmn[0])
+		self.batalha.display.showPokemon(self.batalha.pkmn[1])
 		return self.atualizaBatalha()
 
 	def atualizaBatalha(self):
@@ -171,10 +173,10 @@ class Cliente:
 				if (idServidor != 4):
 					dmgStruggle = pkmnS.getHpAtual() - int(pkmnSXML.find('attributes').find('health').text)
 
-					disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idServidor), dmgStruggle)
+					disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idCliente), dmgStruggle)
 					disp.hitSelf(pkmnC, round(dmgStruggle / 2, 0))
 
-					dmg = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text) + round(dmgStuggle / 2, 0)
+					dmg = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text) + round(dmgStruggle / 2, 0)
 					if (dmg == 0):
 						disp.miss(pkmnS, pkmnC, pkmnS.getAtks(idServidor))
 					else:

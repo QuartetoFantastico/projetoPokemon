@@ -41,9 +41,13 @@ class Leitor:
 				return self.listaAtributosPokemon
 			listaAtks.append(atk)
 
+		while (len(listaAtks) < 4): 
+			listaAtks.append(None)
+
 		struggle = ataque.Ataque(atrib = ['Struggle', 0, 100, 50, 10])
 		listaAtks.append(struggle)
 		self.listaAtributosPokemon.extend(listaAtks)
+		print(self.listaAtributosPokemon)
 
 		return self.listaAtributosPokemon
 
