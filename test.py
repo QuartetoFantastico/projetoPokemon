@@ -290,6 +290,14 @@ class TestBatalha(unittest.TestCase):
         self.batalha.AlternaTurno()
         r = self.batalha.EscolheAtaque()
         self.assertEqual(r, 0)
+        
+    def testEscolheAtaqueInteligente(self):
+        r = self.batalha.EscolheAtaqueInteligente()
+        self.assertEqual(r, 2)
+
+        self.batalha.AlternaTurno()
+        r = self.batalha.EscolheAtaqueInteligente()
+        self.assertEqual(r, 2)    
 
     def testTypeChart(self):
         tabReal = [ [1,   1,   1,   1,   1,  .5,   1,   1,   0,   1,   1,   1,   1,   1,   1,   1,   1],
@@ -485,6 +493,36 @@ class testServer(unittest.TestCase):
         self.assertEqual(pkmn._atks[2], None)
         self.assertEqual(pkmn._atks[3], None)
         self.assertEqual(pkmn._atks[4]._nome, 'Struggle')
+        
+    # def testAtualizaBattleState(self):
+
+    #     serv = server.Server()
+    #     f = open('battle_state.xml', 'r')
+    #     serv.battle_state = f.read()
+    #     f.close()
+
+    #     atk = ataque.Ataque(['Thunder', 12, 110, 70, 10])
+    #     pkmn2 = ["Raichu", 57, 179, 168, 97, 201, 168, 12, 16, [atk, None, None, None]]
+    #     serv.battle_state = serv.criaBatalha(serv.battle_state, pkmn2)
+        
+    #     atk = ataque.Ataque(['Thunder', 12, 110, 70, 50])
+    #     atk2 = ataque.Ataque(['Electro Ball', 12, 100, 80, 50])   
+    #     pkmn = ["Pikachu", 56, 178, 167, 96, 200, 167, 12, 16, [atk, None, None, None]]
+    #     pkmn2 = ["Raichu", 57, 200, 168, 97, 201, 168, 12, 16, [atk, None, None, None]]
+
+    #     serv.battle_state = serv.atualizaBattleState()
+
+    #     root = ET.fromstring(serv.battle_state)
+    #     for i in range(0, 2):
+    #         poke = root[(i + 1)% 2]
+    #         poke_att = poke.find('attributes')
+    #         poke_atk = poke_att.find('attacks')
+
+    #         self.assertEqual(poke_att.find('health').text, 200)
+    #         self.assertEqual(poke_atk[0]._pp, 50)
+    #         self.assertEqual(poke_atk[1]._pp, None)
+    #         self.assertEqual(poke_atk[2]._pp, None)
+    #         self.assertEqual(poke_atk[3]._pp, None)    
 
 class testCliente(unittest.TestCase):
     def testWriteXML(self):
