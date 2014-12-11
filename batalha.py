@@ -32,11 +32,14 @@ class Batalha:
 		escolheu = 0		
 
 		if (atacando.isStruggling()):
+			print("I am struggling....")
 			return 4
 
 		else:
 			if (atacando.npc):
-				return self.EscolheAtaqueInteligente()
+				x = self.EscolheAtaqueInteligente()
+				print ("{} escolhe o ataque {}".format(atacando.getNome(),x))
+				return x
 
 			else:
 				self.display.escolheAtaque(atacando)
@@ -68,7 +71,8 @@ class Batalha:
 		TypeMaior = tab[lista[0].getTyp()][defendendo.getTyp1()] * tab[lista[0].getTyp()][defendendo.getTyp2()]
 
 		if (defendendo.getHpAtual() < 100):
-			for i in range(0, 4):
+			for i in range(0, atacando.getNatks() - 1):
+				print("i = {}".format(i))
 				Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
 				atual = lista[i].getPwr() * Type * (lista[i].getAcu()/100) * self.StabBonus(lista[i])
 				maior = lista[BaseXType].getPwr() * TypeMaior * (lista[BaseXType].getAcu()/100) * self.StabBonus(lista[BaseXType])
@@ -76,14 +80,15 @@ class Batalha:
 					BaseXType = i
 					TypeMaior = Type
 		else:	
-			for i in range(0, 4):
+			for i in range(0, atacando.getNatks() - 1):
+				print("i = {}".format(i))
 				Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
 				atual = lista[i].getPwr() * Type * self.StabBonus(lista[i])
 				maior = lista[BaseXType].getPwr() * TypeMaior * self.StabBonus(lista[BaseXType])
 				if (atual > maior):
 					BaseXType = i
 					TypeMaior = Type
-
+		print(BaseXType)
 		return BaseXType
 
 	def TypeChart(self, name):

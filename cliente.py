@@ -93,10 +93,11 @@ class Cliente:
 		if (self.npc): 
 			self.batalha.pkmn[0].npc = True
 			print("Eu sou um NPC")
+		self.batalha.turno = 0
 		return self.atualizaBatalha()
 
 	def atualizaBatalha(self):
-		self.batalha.turno = 1
+		self.batalha.AlternaTurno()
 		root = ET.fromstring(self.battle_state)
 		for i in range(0,2):
 			pkmnXML = root[i]
@@ -107,10 +108,13 @@ class Cliente:
 		self.batalha.showStatus()
 
 		if (not self.batalha.isOver()):
-			self.batalha.turno = 0
+			self.batalha.AlternaTurno()
 			id = self.batalha.EscolheAtaque()
 			self.batalha.pkmn[0].getAtks(id).decreasePp()
-			self.battle_state = requests.post('http://{}:{}/battle/attack/{}'.format(self.ip, self.port, id + 1)).text
+			if (id == 4):
+				self.battle_state = requests.post('http://{}:{}/battle/attack/{}'.format(self.ip, self.port, 0)).text
+			else:
+				self.battle_state = requests.post('http://{}:{}/battle/attack/{}'.format(self.ip, self.port, id + 1)).text
 			self.simulaAtaque(id)
 			self.atualizaBatalha()
 
@@ -205,7 +209,7 @@ class Cliente:
 				pkmn.getAtks(id).decreasePp()
 				return id
 
-		return id + 1
+		return id
 
 
 

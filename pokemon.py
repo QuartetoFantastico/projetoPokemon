@@ -25,7 +25,7 @@ class Pokemon:
 		self._atks = atrib[9]
 		self._hpAtual = atrib[2]
 		self._struggle = False
-		self.isNpc = False
+		self.npc = False
 
 		if (self._lvl == -1):
 			leitor = leitorpkmn.Leitor()
@@ -86,9 +86,10 @@ class Pokemon:
 	def setStruggle(self):
 		struggle = True
 		for i in range(0, self.getNatks()):
-			if (self.getAtks(i).ppCheck() != 0):
+			if (self.getAtks(i).ppCheck()):
 				struggle = False	
 		self._struggle = struggle
+		print("{} is struggling: {}".format(self._nome, struggle))
 	
 	def getAtkList(self):
 		return self._atks

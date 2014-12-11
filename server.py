@@ -37,6 +37,7 @@ class Server:
 		@self.app.route('/battle/attack/<id>', methods = ['GET' ,'POST'])
 		def recebeAtaque(id):
 			if (request.method == 'POST'):
+				if (id == 0): id = 4
 				self.batalha.pkmn[1].getAtks(int(id) - 1).decreasePp()
 				self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(int(id) - 1))
 				self.batalha.AlternaTurno()
