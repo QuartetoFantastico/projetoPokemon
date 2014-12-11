@@ -8,15 +8,20 @@ import display
 
 class Server:
 
-	def __init__(self):
+	def __init__(self, npc = False):
 		self.app = Flask(__name__)
 		# self.app.debug = True
 		self.battle_state = ''
+		self.npc = npc
+
 
 		@self.app.route('/battle/', methods = ['GET' ,'POST'])
 		def iniciaBatalha():
 			if (request.method == 'POST'):
 				self.battle_state = self.criaBatalha(request.data)
+				if (self.npc): 
+					self.batalha.pkmn[0].npc = True
+					print("Eu sou um NPC")
 
 				if (self.batalha.turno == 0):
 					i = self.batalha.EscolheAtaque()

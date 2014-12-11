@@ -7,9 +7,10 @@ import ataque
 
 class Cliente:
 
-	def __init__(self, execute = False, ip = '127.0.0.1', port = 5000):
+	def __init__(self, execute = False, ip = '127.0.0.1', port = 5000, npc = False):
 		self.ip = ip
 		self.port = port
+		self.npc = npc
 		if (execute):
 			self.iniciaBatalha()
 
@@ -89,6 +90,9 @@ class Cliente:
 			return None
 		pkmn2 = pokemon.lePokemonXML(1, self.battle_state)
 		self.batalha = batalha.Batalha([pkmn, pkmn2])
+		if (self.npc): 
+			self.batalha.pkmn[0].npc = True
+			print("Eu sou um NPC")
 		return self.atualizaBatalha()
 
 	def atualizaBatalha(self):

@@ -1,5 +1,9 @@
-Pikachu 100 274 229
-174 306
+Pikachu
+100 
+274 
+229
+174 
+306
 50
 12
 16
@@ -8,10 +12,16 @@ Thunder
 12
 70
 110
-10 Electro Ball 12
+10 
+Electro Ball 
+12
 100
 80
-10 Quick Attack 0 100 40
+10 
+Quick Attack 
+0 
+100 
+40
 30
 Rock Smash
 1
@@ -19,8 +29,12 @@ Rock Smash
 40
 15
 
-Raichu 100 274 229
-174 306
+Raichu
+100 
+274 
+229
+174 
+306
 50
 12
 16
@@ -29,32 +43,19 @@ Thunder
 12
 70
 110
-10 Electro Ball 12
+10 
+Stone Edge
+4
 100
 80
-10 Quick Attack 0 100 40
+10 
+Quick Attack 
+0 
+100 
+40
 30
 Rock Smash
 1
 100
 40
 15
-
-1
-2
-3
-4
-1
-2
-3
-4
-3
-2
-1
-4
-2
-2
-1
-4
-3
-3

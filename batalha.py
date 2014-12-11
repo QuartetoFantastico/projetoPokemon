@@ -8,7 +8,9 @@ class Batalha:
 	def __init__(self, pokeList = []):
 		self.display = display.Display()
 		self.pkmn = []
-		if (len(pokeList) == 0): self.pkmn.append(pokemon.Pokemon())
+		if (len(pokeList) == 0): 
+			self.pkmn.append(pokemon.Pokemon())
+			self.pkmn.append(pokemon.Pokemon())
 		else:
 			self.pkmn = pokeList
 		self.turno = self.IniciaTurno()
@@ -25,7 +27,6 @@ class Batalha:
 		self.turno = (self.turno + 1) % 2
 
 	def EscolheAtaque(self):
-		true = 1
 		atacando = self.pkmn[self.turno]
 		nAtks = atacando.getNatks()	
 		escolheu = 0		
@@ -34,23 +35,56 @@ class Batalha:
 			return 4
 
 		else:
-			self.display.escolheAtaque(atacando)
-			while true:			
-				self.display.listaAtaques(nAtks, atacando.getAtkList())
-				while (not escolheu):
-					number = input("")
-					p = re.compile('[0-9]')
-					if (p.match(number)):
-						number = int(number)
-						if (number > nAtks or number < 1):
-							self.display.atkInvalido()
-						else: escolheu = 1
-						if (escolheu):
-							if (atacando.getAtks(number - 1).ppCheck()):
-								return number - 1
-							self.display.ppInsuficiente()
-							escolheu = 0
-					else: self.display.atkInvalido()
+			if (atacando.npc):
+				return self.EscolheAtaqueInteligente()
+
+			else:
+				self.display.escolheAtaque(atacando)
+				while True:			
+					self.display.listaAtaques(nAtks, atacando.getAtkList())
+					while (not escolheu):
+						number = input("")
+						p = re.compile('[0-9]')
+						if (p.match(number)):
+							number = int(number)
+							if (number > nAtks or number < 1):
+								self.display.atkInvalido()
+							else: escolheu = 1
+							if (escolheu):
+								if (atacando.getAtks(number - 1).ppCheck()):
+									return number - 1
+								self.display.ppInsuficiente()
+								escolheu = 0
+						else: self.display.atkInvalido()
+
+	def EscolheAtaqueInteligente(self):
+		#Para maximizar o dano, deve-se maximizar a Base X Tipo X STAB
+		true = 1
+		tab = self.TypeChart('tabela.txt')
+		atacando = self.pkmn[self.turno]
+		defendendo = self.pkmn[(self.turno + 1) % 2]
+		BaseXType = 0
+		lista = atacando.getAtkList()
+		TypeMaior = tab[lista[0].getTyp()][defendendo.getTyp1()] * tab[lista[0].getTyp()][defendendo.getTyp2()]
+
+		if (defendendo.getHpAtual() < 100):
+			for i in range(0, 4):
+				Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
+				atual = lista[i].getPwr() * Type * (lista[i].getAcu()/100) * self.StabBonus(lista[i])
+				maior = lista[BaseXType].getPwr() * TypeMaior * (lista[BaseXType].getAcu()/100) * self.StabBonus(lista[BaseXType])
+				if (atual > maior):
+					BaseXType = i
+					TypeMaior = Type
+		else:	
+			for i in range(0, 4):
+				Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
+				atual = lista[i].getPwr() * Type * self.StabBonus(lista[i])
+				maior = lista[BaseXType].getPwr() * TypeMaior * self.StabBonus(lista[BaseXType])
+				if (atual > maior):
+					BaseXType = i
+					TypeMaior = Type
+
+		return BaseXType
 
 	def TypeChart(self, name):
 		arquivo = open(name, 'r')
