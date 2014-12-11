@@ -15,6 +15,8 @@ if (len(sys.argv) > 1 and (sys.argv[1] == '-s' or sys.argv[1] == '-S' or sys.arg
 		s = server.Server(npc = NPC)
 		s.run()
 
+	print("Pressione ENTER para sair")
+
 else:
 
 	batalha = batalha.Batalha()
