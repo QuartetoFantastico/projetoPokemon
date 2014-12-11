@@ -81,10 +81,9 @@ class Batalha:
 
 		else:
 			if (atacando.getHpAtual() < 100):
-				precisao = atacando.getAcu() / 100
 				for i in range(0, len(lista)):
 					Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
-					if (lista[i].getPwr() * Type * precisao > lista[BaseXType].getPwr() * TypeMaior * precisao):
+					if (lista[i].getPwr() * Type * (lista[i].getAcu()/100) > lista[BaseXType].getPwr() * TypeMaior * (lista[i].getAcu()/100)):
 						BaseXType = i
 						TypeMaior = Type
 			else:	
