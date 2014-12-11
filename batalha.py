@@ -66,36 +66,6 @@ class Batalha:
 		arquivo.close()
 		return tab
 
-	def EscolheAtaqueInteligente(self):
-		#Para maximizar o dano, deve-se maximizar a Base X Tipo
-		true = 1
-		TypeMaior = 1
-		atacando = self.pkmn[self.turno]
-		defendendo = self.pkmn[(self.turno + 1) % 2]
-		BaseXType = 0
-		lista = atacando.getAtkList()
-		tab = self.TypeChart('tabela.txt')
-
-		if (atacando.isStruggling()):
-			return 4
-
-		else:
-			if (atacando.getHpAtual() < 100):
-				for i in range(0, len(lista)):
-					Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
-					if (lista[i].getPwr() * Type * (lista[i].getAcu()/100) > lista[BaseXType].getPwr() * TypeMaior * (lista[i].getAcu()/100)):
-						BaseXType = i
-						TypeMaior = Type
-			else:	
-				for i in range(0, len(lista)):
-					Type = tab[lista[i].getTyp()][defendendo.getTyp1()] * tab[lista[i].getTyp()][defendendo.getTyp2()]
-					if (lista[i].getPwr() * Type > lista[BaseXType].getPwr() * TypeMaior):
-						BaseXType = i
-						TypeMaior = Type
-
-		return BaseXType
-			
-
 	def StabBonus(self, atk):
 		atacando = self.pkmn[self.turno]
 		if (atk.getTyp() == atacando.getTyp1() or atk.getTyp() == atacando.getTyp2()): return 1.5

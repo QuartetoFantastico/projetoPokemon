@@ -2,18 +2,8 @@ import batalha
 import sys
 import cliente
 import server
-import globals
 
 if (len(sys.argv) > 1):
-	intelig = 0
-	
-	for i in range(1, len(sys.argv)):
-		if (sys.argv[i] == '-s'): batalha.display.toggle()
-		if (sys.argv[i] == '-v'): batalha.display.toggleVerbose()
-		if (sys.argv[i] == '-i'): intelig = 1
-
-	globals.init(intelig)
-
 	if (sys.argv[1] == '-c' or sys.argv[1] == '-C'):
 		c = cliente.Cliente(True)
 		c.sendShutdownSignal()
@@ -21,29 +11,20 @@ if (len(sys.argv) > 1):
 	elif (sys.argv[1] == '-s' or sys.argv[1] == '-S'):
 		s = server.Server()
 		s.run()
-	
-	print("\nPressione ENTER para sair")
 
 else:
 
-	intelig = 0
 	batalha = batalha.Batalha()
-	
+
 	for i in range(0, len(sys.argv)):
 		if (sys.argv[i] == '-s'): batalha.display.toggle()
 		if (sys.argv[i] == '-v'): batalha.display.toggleVerbose()
-		if (sys.argv[i] == '-i'): intelig = 1
-
-	globals.init(intelig) 	
 
 	batalha.display.showPokemon(batalha.pkmn[0])
 	batalha.display.showPokemon(batalha.pkmn[1])
 
 	while (not batalha.isOver()):
-		if (globals.smart):
-			i = batalha.EscolheAtaqueInteligente()
-		else:
-			i = batalha.EscolheAtaque()
+		i = batalha.EscolheAtaque()
 		batalha.pkmn[batalha.turno].getAtks(i).decreasePp()
 		batalha.CalculaDano(batalha.pkmn[batalha.turno].getAtks(i))
 		batalha.showStatus()

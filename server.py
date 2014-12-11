@@ -5,13 +5,12 @@ import batalha
 import ataque
 import pokemon
 import display
-import globals
 
 class Server:
 
 	def __init__(self):
 		self.app = Flask(__name__)
-		self.app.debug = True
+		# self.app.debug = True
 		self.battle_state = ''
 
 		@self.app.route('/battle/', methods = ['GET' ,'POST'])
@@ -20,10 +19,7 @@ class Server:
 				self.battle_state = self.criaBatalha(request.data)
 
 				if (self.batalha.turno == 0):
-					if (globals.smart):
-						i = self.batalha.EscolheAtaqueInteligente()
-					else:
-						i = self.batalha.EscolheAtaque()
+					i = self.batalha.EscolheAtaque()
 					self.batalha.pkmn[0].getAtks(i).decreasePp()
 					self.batalha.CalculaDano(self.batalha.pkmn[0].getAtks(i))
 					self.battle_state = self.atualizaBattleState()
@@ -36,9 +32,6 @@ class Server:
 		@self.app.route('/battle/attack/<id>', methods = ['GET' ,'POST'])
 		def recebeAtaque(id):
 			if (request.method == 'POST'):
-
-				if id == 0: 
-					id = 5
 				self.batalha.pkmn[1].getAtks(int(id) - 1).decreasePp()
 				self.batalha.CalculaDano(self.batalha.pkmn[1].getAtks(int(id) - 1))
 				self.batalha.AlternaTurno()
@@ -46,10 +39,7 @@ class Server:
 				self.batalha.showStatus()
 
 				if (not self.batalha.isOver()):
-					if (globals.smart):
-						i = self.batalha.EscolheAtaqueInteligente()
-					else:
-						i = self.batalha.EscolheAtaque()
+					i = self.batalha.EscolheAtaque()
 					self.batalha.pkmn[0].getAtks(i).decreasePp()
 					self.batalha.CalculaDano(self.batalha.pkmn[0].getAtks(i))
 					self.batalha.AlternaTurno()

@@ -11,6 +11,7 @@ class Pokemon:
 			while (len(atrib) < 10):
 				atrib.append(-1)
 			atrib[1] = -1
+			atrib[9] = []
 
 		self._nome = atrib[0]
 		self._lvl = atrib[1]
