@@ -120,7 +120,7 @@ class Cliente:
 				self.battle_state = requests.post('http://{}:{}/battle/attack/{}'.format(self.ip, self.port, 0)).text
 			else:
 				self.battle_state = requests.post('http://{}:{}/battle/attack/{}'.format(self.ip, self.port, id + 1)).text
-			# self.simulaAtaque(id)
+			self.simulaAtaque(id)
 			self.atualizaBatalha()
 
 		else: 
