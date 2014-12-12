@@ -111,13 +111,16 @@ class Cliente:
 
 		if (not self.batalha.isOver()):
 			self.batalha.AlternaTurno()
-			id = self.batalha.EscolheAtaque()
+			if (self.batalha.pkmn[self.batalha.turno].npc):
+				id = self.batalha.EscolheAtaqueInteligente()
+			else:
+				id = self.batalha.EscolheAtaque()
 			self.batalha.pkmn[0].getAtks(id).decreasePp()
 			if (id == 4):
 				self.battle_state = requests.post('http://{}:{}/battle/attack/{}'.format(self.ip, self.port, 0)).text
 			else:
 				self.battle_state = requests.post('http://{}:{}/battle/attack/{}'.format(self.ip, self.port, id + 1)).text
-			self.simulaAtaque(id)
+			# self.simulaAtaque(id)
 			self.atualizaBatalha()
 
 		else: 
@@ -128,90 +131,90 @@ class Cliente:
 	def sendShutdownSignal(self):
 		requests.post('http://{}:{}/shutdown'.format(self.ip, self.port))
 
-	def simulaAtaque(self, idCliente):
-		disp = self.batalha.display
-		root = ET.fromstring(self.battle_state)
+	# def simulaAtaque(self, idCliente):
+	# 	disp = self.batalha.display
+	# 	root = ET.fromstring(self.battle_state)
 
-		pkmnCXML = root[0]
-		pkmnC = self.batalha.pkmn[0]
+	# 	pkmnCXML = root[0]
+	# 	pkmnC = self.batalha.pkmn[0]
 
-		pkmnSXML = root[1]
-		pkmnS = self.batalha.pkmn[1]
-		atksXML = pkmnSXML.findall('attacks')
-		idServidor = self.descobreAtaqueUsado(atksXML, pkmnS)
+	# 	pkmnSXML = root[1]
+	# 	pkmnS = self.batalha.pkmn[1]
+	# 	atksXML = pkmnSXML.findall('attacks')
+	# 	idServidor = self.descobreAtaqueUsado(atksXML, pkmnS)
 
-		if (int(pkmnSXML.find('attributes').find('health').text) > 0):
+	# 	if (int(pkmnSXML.find('attributes').find('health').text) > 0):
 
-			if (idCliente != 4):
-				if (idServidor != 4):
+	# 		if (idCliente != 4):
+	# 			if (idServidor != 4):
 
-					dmg = pkmnS.getHpAtual() - int(pkmnSXML.find('attributes').find('health').text)
-					if (dmg == 0):
-						disp.miss(pkmnC, pkmnS, pkmnC.getAtks(idCliente))
-					else:
-						disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idCliente), dmg)
+	# 				dmg = pkmnS.getHpAtual() - int(pkmnSXML.find('attributes').find('health').text)
+	# 				if (dmg == 0):
+	# 					disp.miss(pkmnC, pkmnS, pkmnC.getAtks(idCliente))
+	# 				else:
+	# 					disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idCliente), dmg)
 
-					dmg = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text)
-					if (dmg == 0):
-						disp.miss(pkmnS, pkmnC, pkmnS.getAtks(idServidor))
-					else:
-						disp.hit(pkmnS, pkmnC, pkmnS.getAtks(idServidor), dmg)
+	# 				dmg = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text)
+	# 				if (dmg == 0):
+	# 					disp.miss(pkmnS, pkmnC, pkmnS.getAtks(idServidor))
+	# 				else:
+	# 					disp.hit(pkmnS, pkmnC, pkmnS.getAtks(idServidor), dmg)
 
-				else:
-					dmgStruggle = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text)
+	# 			else:
+	# 				dmgStruggle = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text)
 
-					dmg = pkmnS.getHpAtual() - int(pkmnSXML.find('attributes').find('health').text) + round(dmgStruggle / 2, 0)
-					if (dmg == 0):
-						disp.miss(pkmnC, pkmnS, pkmnC.getAtks(idCliente))
-					else:
-						disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idCliente), dmg)
+	# 				dmg = pkmnS.getHpAtual() - int(pkmnSXML.find('attributes').find('health').text) + round(dmgStruggle / 2, 0)
+	# 				if (dmg == 0):
+	# 					disp.miss(pkmnC, pkmnS, pkmnC.getAtks(idCliente))
+	# 				else:
+	# 					disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idCliente), dmg)
 
-					disp.hit(pkmnS, pkmnC, pkmnS.getAtks(idServidor), dmgStruggle)
-					disp.hitSelf(pkmnS, round(dmgStruggle / 2, 0))
+	# 				disp.hit(pkmnS, pkmnC, pkmnS.getAtks(idServidor), dmgStruggle)
+	# 				disp.hitSelf(pkmnS, round(dmgStruggle / 2, 0))
 
-			else:
-				if (idServidor != 4):
-					dmgStruggle = pkmnS.getHpAtual() - int(pkmnSXML.find('attributes').find('health').text)
+	# 		else:
+	# 			if (idServidor != 4):
+	# 				dmgStruggle = pkmnS.getHpAtual() - int(pkmnSXML.find('attributes').find('health').text)
 
-					disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idCliente), dmgStruggle)
-					disp.hitSelf(pkmnC, round(dmgStruggle / 2, 0))
+	# 				disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idCliente), dmgStruggle)
+	# 				disp.hitSelf(pkmnC, round(dmgStruggle / 2, 0))
 
-					dmg = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text) + round(dmgStruggle / 2, 0)
-					if (dmg == 0):
-						disp.miss(pkmnS, pkmnC, pkmnS.getAtks(idServidor))
-					else:
-						disp.hit(pkmnS, pkmnC, pkmnS.getAtks(idServidor), dmg)
+	# 				dmg = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text) + round(dmgStruggle / 2, 0)
+	# 				if (dmg == 0):
+	# 					disp.miss(pkmnS, pkmnC, pkmnS.getAtks(idServidor))
+	# 				else:
+	# 					disp.hit(pkmnS, pkmnC, pkmnS.getAtks(idServidor), dmg)
 
-				else:
-					print('Ambos usam e se machucam com Struggle!')
+	# 			else:
+	# 				print('Ambos usam e se machucam com Struggle!')
 
-		else:
+	# 	else:
 
-			if (idCliente != 4):
+	# 		if (idCliente != 4):
 
-				dmg = pkmnS.getHpAtual() - int(pkmnSXML.find('attributes').find('health').text)
-				if (dmg == 0):
-					disp.miss(pkmnC, pkmnS, pkmnC.getAtks(idCliente))
-				else:
-					disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idCliente), dmg)
+	# 			dmg = pkmnS.getHpAtual() - int(pkmnSXML.find('attributes').find('health').text)
+	# 			if (dmg == 0):
+	# 				disp.miss(pkmnC, pkmnS, pkmnC.getAtks(idCliente))
+	# 			else:
+	# 				disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idCliente), dmg)
 
-			else:
-				dmgStruggle = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text)
+	# 		else:
+	# 			dmgStruggle = pkmnC.getHpAtual() - int(pkmnCXML.find('attributes').find('health').text)
 
-				disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idServidor), dmgStruggle * 2)
-				disp.hitSelf(pkmnC, round(dmgStruggle, 0))
+	# 			disp.hit(pkmnC, pkmnS, pkmnC.getAtks(idServidor), dmgStruggle * 2)
+	# 			disp.hitSelf(pkmnC, round(dmgStruggle, 0))
 
-	def descobreAtaqueUsado(self, atksXML, pkmn):
-		for i in range(0, len(atksXML)):
-			id = int(atksXML[i].find('id').text) - 1 
-			ppXML = int(atksXML[i].find('power_points').text)
-			pp = pkmn.getAtks(id).getPpAtual()
+	# def descobreAtaqueUsado(self, atksXML, pkmn):
+	# 	for i in range(0, len(atksXML)):
+	# 		id = int(atksXML[i].find('id').text) - 1 
+	# 		ppXML = int(atksXML[i].find('power_points').text)
+	# 		pp = pkmn.getAtks(id).getPpAtual()
 
-			if (pp != ppXML):
-				pkmn.getAtks(id).decreasePp()
-				return id
+	# 		if (pp != ppXML):
+	# 			pkmn.getAtks(id).decreasePp()
+	# 			return id
 
-		return id
+	# 	return id
 
 
 

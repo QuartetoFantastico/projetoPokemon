@@ -24,7 +24,10 @@ class Server:
 					print("Eu sou um NPC")
 
 				if (self.batalha.turno == 0):
-					i = self.batalha.EscolheAtaque()
+					if (self.batalha.pkmn[self.batalha.turno].npc):
+						i = self.batalha.EscolheAtaqueInteligente()
+					else:
+						i = self.batalha.EscolheAtaque()
 					self.batalha.pkmn[0].getAtks(i).decreasePp()
 					self.batalha.CalculaDano(self.batalha.pkmn[0].getAtks(i))
 					self.battle_state = self.atualizaBattleState()
@@ -45,7 +48,10 @@ class Server:
 				self.batalha.showStatus()
 
 				if (not self.batalha.isOver()):
-					i = self.batalha.EscolheAtaque()
+					if (self.batalha.pkmn[self.batalha.turno].npc):
+						i = self.batalha.EscolheAtaqueInteligente()
+					else:
+						i = self.batalha.EscolheAtaque()
 					self.batalha.pkmn[0].getAtks(i).decreasePp()
 					self.batalha.CalculaDano(self.batalha.pkmn[0].getAtks(i))
 					self.batalha.AlternaTurno()
