@@ -48,8 +48,6 @@ class Leitor:
 		listaAtks.append(struggle)
 		self.listaAtributosPokemon.extend(listaAtks)
 
-		#print(self.listaAtributosPokemon)
-
 		return self.listaAtributosPokemon
 
 
